@@ -9,6 +9,9 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include "Player.h"
+
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -48,4 +51,15 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+
+	// モデル
+	Model* playerModel_ = nullptr;
+
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0;
+	// ビュープロジェクション
+	ViewProjection viewProjection_;
+
+	Player* player_ = nullptr;
+
 };
