@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <cassert>
 
+#include "Player.h"
 
 GameScene::GameScene() {}
 

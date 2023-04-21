@@ -9,7 +9,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-#include "Player.h"
+class Player;
 
 
 /// <summary>
