@@ -3,18 +3,18 @@
 /// <summary>
 /// 3次元ベクトル
 /// </summary>
-struct Vector3 final {	
+struct Vector3 final {
 	float x;
 	float y;
 	float z;
+	static const int kColumnWidth = 68;
+	static const int kRowHeight = 20;
 };
 
 // 描画
-static const int kColumnWidth = 68;
-static const int kRowHeight = 20;
 void VectorScreenPrintf(int x, int y, const Vector3& vector, const char* label);
 
-    // 加算
+// 加算
 Vector3 Add(const Vector3& v1, const Vector3& v2);
 
 // 減算
