@@ -5,6 +5,8 @@
 #include <cassert>
 #include "ImGuiManager.h"
 
+#include "Mymath.h"
+
 void Player::Initialze(Model* model, uint32_t textureHandle) {
 	// NULL ポインタチェック
 	assert(model);
@@ -40,7 +42,7 @@ void Player::Update() {
 	}
 
 	// 座標加算(ベクトルの加算)
-	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+	worldTransform_.translation_ = Mymath::Add(worldTransform_.translation_, move);
 
 	// 移動限界座標
 	const float kMoveLimitX = 32.5f;
@@ -52,7 +54,7 @@ void Player::Update() {
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
-	worldTransform_.matWorld_ = MakeAffineMatrix(
+	worldTransform_.matWorld_ = Mymath::MakeAffineMatrix4x4(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
 
