@@ -4,6 +4,8 @@
 #include "WorldTransform.h"
 #include "Input.h"
 
+class PlayerBullet;
+
 class Player {
 public:
 	/// <summary>
@@ -24,6 +26,18 @@ public:
 	/// <param name="viewProjectioin">ビュープロジェクション</param>
 	void Draw(const ViewProjection& viewProjectioin);
 
+private: // メンバ関数
+
+	/// <summary>
+	/// 回転
+	/// </summary>
+	void Rotate();
+
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
+
 private: // メンバ変数
 
 	// ワールド変換データ
@@ -35,5 +49,8 @@ private: // メンバ変数
 
 	// キーボード入力
 	Input* input_ = nullptr;
+
+	// 弾
+	PlayerBullet* bullet_ = nullptr;
 
 };
