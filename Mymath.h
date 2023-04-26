@@ -30,49 +30,49 @@ namespace Mymath
 #pragma region Vector3
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì‰ÁZ
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®åŠ ç®—
 	/// </summary>
-	/// <param name="v1">ƒxƒNƒgƒ‹‚P</param>
-	/// <param name="v2">ƒxƒNƒgƒ‹‚Q</param>
-	/// <returns>‰ÁZ‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="v1">ãƒ™ã‚¯ãƒˆãƒ«ï¼‘</param>
+	/// <param name="v2">ãƒ™ã‚¯ãƒˆãƒ«ï¼’</param>
+	/// <returns>åŠ ç®—ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector3 Add(const Vector3& v1, const Vector3& v2);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚ÌŒ¸Z
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®æ¸›ç®—
 	/// </summary>
-	/// <param name="v1">ƒxƒNƒgƒ‹‚P</param>
-	/// <param name="v2">ƒxƒNƒgƒ‹‚Q</param>
-	/// <returns>Œ¸Z‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="v1">ãƒ™ã‚¯ãƒˆãƒ«ï¼‘</param>
+	/// <param name="v2">ãƒ™ã‚¯ãƒˆãƒ«ï¼’</param>
+	/// <returns>æ¸›ç®—ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector3 Subtract(const Vector3& v1, const Vector3& v2);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚ÌæZ
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®ä¹—ç®—
 	/// </summary>
-	/// <param name="scalar">ƒXƒJƒ‰[</param>
-	/// <param name="v">ƒxƒNƒgƒ‹</param>
-	/// <returns>æZ‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="scalar">ã‚¹ã‚«ãƒ©ãƒ¼</param>
+	/// <param name="v">ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <returns>ä¹—ç®—ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector3 Multiply(float scalar, const Vector3& v);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì“àÏ
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	/// </summary>
-	/// <param name="v1">ƒxƒNƒgƒ‹‚P</param>
-	/// <param name="v2">ƒxƒNƒgƒ‹‚Q</param>
-	/// <returns>“àÏ</returns>
+	/// <param name="v1">ãƒ™ã‚¯ãƒˆãƒ«ï¼‘</param>
+	/// <param name="v2">ãƒ™ã‚¯ãƒˆãƒ«ï¼’</param>
+	/// <returns>å†…ç©</returns>
 	float Dot(const Vector3& v1, const Vector3& v2);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì’·‚³
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•
 	/// </summary>
-	/// <param name="v">ƒxƒNƒgƒ‹</param>
-	/// <returns>ƒxƒNƒgƒ‹‚Ì’·‚³</returns>
+	/// <param name="v">ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <returns>ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•</returns>
 	float Length(const Vector3& v);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì³‹K‰»
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
 	/// </summary>
-	/// <param name="v">ƒxƒNƒgƒ‹</param>
-	/// <returns>³‹K‰»‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="v">ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <returns>æ­£è¦åŒ–ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector3 Normalize(const Vector3& v);
 
 	// End Vector3
@@ -81,49 +81,49 @@ namespace Mymath
 #pragma region Vecotor4
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì‰ÁZ
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®åŠ ç®—
 	/// </summary>
-	/// <param name="v1">ƒxƒNƒgƒ‹‚P</param>
-	/// <param name="v2">ƒxƒNƒgƒ‹‚Q</param>
-	/// <returns>‰ÁZ‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="v1">ãƒ™ã‚¯ãƒˆãƒ«ï¼‘</param>
+	/// <param name="v2">ãƒ™ã‚¯ãƒˆãƒ«ï¼’</param>
+	/// <returns>åŠ ç®—ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector4 Add(const Vector4& v1, const Vector4& v2);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚ÌŒ¸Z
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®æ¸›ç®—
 	/// </summary>
-	/// <param name="v1">ƒxƒNƒgƒ‹‚P</param>
-	/// <param name="v2">ƒxƒNƒgƒ‹‚Q</param>
-	/// <returns>Œ¸Z‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="v1">ãƒ™ã‚¯ãƒˆãƒ«ï¼‘</param>
+	/// <param name="v2">ãƒ™ã‚¯ãƒˆãƒ«ï¼’</param>
+	/// <returns>æ¸›ç®—ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector4 Subtract(const Vector4& v1, const Vector4& v2);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚ÌæZ
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®ä¹—ç®—
 	/// </summary>
-	/// <param name="scalar">ƒXƒJƒ‰[</param>
-	/// <param name="v">ƒxƒNƒgƒ‹</param>
-	/// <returns>æZ‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="scalar">ã‚¹ã‚«ãƒ©ãƒ¼</param>
+	/// <param name="v">ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <returns>ä¹—ç®—ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector4 Multiply(float scalar, const Vector4& v);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì“àÏ
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	/// </summary>
-	/// <param name="v1">ƒxƒNƒgƒ‹‚P</param>
-	/// <param name="v2">ƒxƒNƒgƒ‹‚Q</param>
-	/// <returns>“àÏ</returns>
+	/// <param name="v1">ãƒ™ã‚¯ãƒˆãƒ«ï¼‘</param>
+	/// <param name="v2">ãƒ™ã‚¯ãƒˆãƒ«ï¼’</param>
+	/// <returns>å†…ç©</returns>
 	float Dot(const Vector4& v1, const Vector4& v2);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì’·‚³
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•
 	/// </summary>
-	/// <param name="v">ƒxƒNƒgƒ‹</param>
-	/// <returns>ƒxƒNƒgƒ‹‚Ì’·‚³</returns>
+	/// <param name="v">ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <returns>ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•</returns>
 	float Length(const Vector4& v);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì³‹K‰»
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
 	/// </summary>
-	/// <param name="v">ƒxƒNƒgƒ‹</param>
-	/// <returns>³‹K‰»‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="v">ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <returns>æ­£è¦åŒ–ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector4 Normalize(const Vector4& v);
 
 	// End Vecotr4
@@ -146,56 +146,56 @@ namespace Mymath
 #pragma region Matrix4x4
 
 	/// <summary>
-	/// s—ñ‚Ì‰ÁZ
+	/// è¡Œåˆ—ã®åŠ ç®—
 	/// </summary>
-	/// <param name="m1">s—ñ‚P</param>
-	/// <param name="m2">s—ñ‚Q</param>
-	/// <returns>‰ÁZ‚³‚ê‚½s—ñ</returns>
+	/// <param name="m1">è¡Œåˆ—ï¼‘</param>
+	/// <param name="m2">è¡Œåˆ—ï¼’</param>
+	/// <returns>åŠ ç®—ã•ã‚ŒãŸè¡Œåˆ—</returns>
 	Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2);
 
 	/// <summary>
-	/// s—ñ‚ÌŒ¸Z
+	/// è¡Œåˆ—ã®æ¸›ç®—
 	/// </summary>
-	/// <param name="m1">s—ñ‚P</param>
-	/// <param name="m2">s—ñ‚Q</param>
-	/// <returns>Œ¸Z‚³‚ê‚½s—ñ</returns>
+	/// <param name="m1">è¡Œåˆ—ï¼‘</param>
+	/// <param name="m2">è¡Œåˆ—ï¼’</param>
+	/// <returns>æ¸›ç®—ã•ã‚ŒãŸè¡Œåˆ—</returns>
 	Matrix4x4 Subtract(const Matrix4x4& m1, const Matrix4x4& m2);
 
 	/// <summary>
-	/// s—ñ‚ÌæZ
+	/// è¡Œåˆ—ã®ä¹—ç®—
 	/// </summary>
-	/// <param name="m1">s—ñ‚P</param>
-	/// <param name="m2">s—ñ‚Q</param>
-	/// <returns><æZ‚³‚ê‚½s—ñ/returns>
+	/// <param name="m1">è¡Œåˆ—ï¼‘</param>
+	/// <param name="m2">è¡Œåˆ—ï¼’</param>
+	/// <returns><ä¹—ç®—ã•ã‚ŒãŸè¡Œåˆ—/returns>
 	Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 
 	/// <summary>
-	/// ‹ts—ñ
+	/// é€†è¡Œåˆ—
 	/// </summary>
-	/// <param name="matrix">s—ñ</param>
-	/// <returns>‹ts—ñ</returns>
+	/// <param name="matrix">è¡Œåˆ—</param>
+	/// <returns>é€†è¡Œåˆ—</returns>
 	Matrix4x4 Inverse(const Matrix4x4& matrix);
 
 	/// <summary>
-	/// “]’us—ñ
+	/// è»¢ç½®è¡Œåˆ—
 	/// </summary>
-	/// <param name="matrix">s—ñ</param>
-	/// <returns>“]’us—ñ</returns>
+	/// <param name="matrix">è¡Œåˆ—</param>
+	/// <returns>è»¢ç½®è¡Œåˆ—</returns>
 	Matrix4x4 Transpose(const Matrix4x4& matrix);
 
 	/// <summary>
-	/// 4x4 ’PˆÊs—ñ
+	/// 4x4 å˜ä½è¡Œåˆ—
 	/// </summary>
-	/// <returns>4x4 ’PˆÊs—ñ</returns>
+	/// <returns>4x4 å˜ä½è¡Œåˆ—</returns>
 	Matrix4x4 MakeIdentity4x4();
 
 	/// <summary>
-	/// 4x4 ƒAƒtƒBƒ“s—ñ
+	/// 4x4 ã‚¢ãƒ•ã‚£ãƒ³è¡Œåˆ—
 	/// </summary>
-	/// <param name="scale">ƒXƒP[ƒ‹</param>
-	/// <param name="rotate">‰ñ“]</param>
-	/// <param name="translate">ˆÚ“®</param>
-	/// <returns>4x4 ƒAƒtƒBƒ“s—ñ</returns>
+	/// <param name="scale">ã‚¹ã‚±ãƒ¼ãƒ«</param>
+	/// <param name="rotate">å›è»¢</param>
+	/// <param name="translate">ç§»å‹•</param>
+	/// <returns>4x4 ã‚¢ãƒ•ã‚£ãƒ³è¡Œåˆ—</returns>
 	Matrix4x4 MakeAffineMatrix4x4(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 	// End Matrix4x4

@@ -21,32 +21,32 @@
 
 #pragma region Vector3
 
-// ‰ÁZ
+// åŠ ç®—
 Vector3 Mymath::Add(const Vector3& v1, const Vector3& v2) {
 	return Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 }
 
-// Œ¸Z
+// æ¸›ç®—
 Vector3 Mymath::Subtract(const Vector3& v1, const Vector3& v2) {
 	return Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 }
 
-// ƒXƒJƒ‰[”{
+// ã‚¹ã‚«ãƒ©ãƒ¼å€
 Vector3 Mymath::Multiply(float scalar, const Vector3& v) {
 	return Vector3(scalar * v.x, scalar * v.y, scalar * v.z);
 }
 
-// “àÏ
+// å†…ç©
 float Mymath::Dot(const Vector3& v1, const Vector3& v2) {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
-// ’·‚³
+// é•·ã•
 float Mymath::Length(const Vector3& v) {
 	return sqrtf(Dot(v, v));
 }
 
-// ³‹K‰»
+// æ­£è¦åŒ–
 Vector3 Mymath::Normalize(const Vector3& v) {
 	float length = Length(v);
 	Vector3 temp = v;
