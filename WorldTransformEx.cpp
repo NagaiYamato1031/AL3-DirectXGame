@@ -4,7 +4,7 @@
 
 void WorldTransform::UpdateMatrix() {
 	// スケール、回転、平行移動
-	matWorld_ = Mymath::MakeAffineMatrix4x4(scale_, rotation_, translation_);
+	matWorld_ = Mymath::MakeAffineMatrix(scale_, rotation_, translation_);
 	// 定数バッファに転送する
 	TransferMatrix();
 }
