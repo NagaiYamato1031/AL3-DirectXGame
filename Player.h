@@ -4,6 +4,8 @@
 #include "WorldTransform.h"
 #include "Input.h"
 
+#include <list>
+
 class PlayerBullet;
 
 class Player {
@@ -57,6 +59,6 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 
 	// 弾
-	PlayerBullet* bullet_ = nullptr;
+	std::list<PlayerBullet*> bullets_;
 
 };
