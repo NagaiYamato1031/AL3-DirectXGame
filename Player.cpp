@@ -1,11 +1,12 @@
 #include "Player.h"
 
-#include "Vector3.h"
-#include "Matrix4x4.h"
 #include <cassert>
 #include "ImGuiManager.h"
 
 #include "Mymath.h"
+
+#include "Vector3.h"
+#include "Matrix4x4.h"
 
 void Player::Initialze(Model* model, uint32_t textureHandle) {
 	// NULL ポインタチェック
@@ -54,7 +55,7 @@ void Player::Update() {
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
-	worldTransform_.matWorld_ = Mymath::MakeAffineMatrix4x4(
+	worldTransform_.matWorld_ = Mymath::MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
 
