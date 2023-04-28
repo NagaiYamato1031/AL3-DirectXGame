@@ -9,10 +9,10 @@
 #include <cassert>
 #include <cmath>
 
-#include "C:\KamataEngine\DirectXGame\math\Matrix4x4.h"
-#include "C:\KamataEngine\DirectXGame\math\Vector2.h"
-#include "C:\KamataEngine\DirectXGame\math\Vector3.h"
-#include "C:\KamataEngine\DirectXGame\math\Vector4.h"
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
+#include "Matrix4x4.h"
 
 // using namespace Mymath;
 

@@ -1,13 +1,17 @@
 #include "Player.h"
 
 #include "ImGuiManager.h"
-#include "Matrix4x4.h"
-#include "Vector3.h"
 #include <cassert>
 
 #include "Mymath.h"
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
+#include "Matrix4x4.h"
 
 #include "PlayerBullet.h"
+
+Player::~Player() { delete bullet_; }
 
 void Player::Initialze(Model* model, uint32_t textureHandle) {
 	// NULL ポインタチェック
