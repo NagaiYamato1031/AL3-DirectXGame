@@ -3,6 +3,8 @@
 #include <cassert>
 #include "TextureManager.h"
 
+#include "Mymath.h"
+
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	// NULL ポインタチェック
 	assert(model);

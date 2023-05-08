@@ -1,11 +1,4 @@
 #include "Mymath.h"
-//
-// #include "Vector2.h"
-// #include "Vector3.h"
-// #include "Vector4.h"
-//
-// #include "Matrix4x4.h"
-
 #include <cassert>
 #include <cmath>
 
@@ -106,46 +99,46 @@ Vector2 Mymath::Transform(const Vector2& vector, const Matrix3x3& matrix) {
 
 #pragma region Operator OverLoad
 
-inline Vector3 operator+(const Vector3& v1, const Vector3& v2) {
-	Vector3 temp;
+Vector3 operator+(const Vector3& v1, const Vector3& v2) {
+	Vector3 temp{};
 	temp.x = v1.x + v2.x;
 	temp.y = v1.y + v2.y;
 	temp.z = v1.z + v2.z;
 	return temp;
 }
-inline Vector3 operator-(const Vector3& v1, const Vector3& v2) {
-	Vector3 temp;
+Vector3 operator-(const Vector3& v1, const Vector3& v2) {
+	Vector3 temp{};
 	temp.x = v1.x - v2.x;
 	temp.y = v1.y - v2.y;
 	temp.z = v1.z - v2.z;
 	return temp;
 }
-inline Vector3 operator*(const Vector3& v, float scalar) {
-	Vector3 temp;
+Vector3 operator*(const Vector3& v, float scalar) {
+	Vector3 temp{};
 	temp.x = v.x * scalar;
 	temp.y = v.y * scalar;
 	temp.z = v.z * scalar;
 	return temp;
 }
-inline Vector3 operator*(float scalar, const Vector3& v) {
-	Vector3 temp;
+Vector3 operator*(float scalar, const Vector3& v) {
+	Vector3 temp{};
 	temp.x = v.x * scalar;
 	temp.y = v.y * scalar;
 	temp.z = v.z * scalar;
 	return temp;
 }
 
-inline Vector3& operator+=(Vector3& v1, const Vector3& v2) {
+Vector3& operator+=(Vector3& v1, const Vector3& v2) {
 	v1 = v1 + v2;
 	return v1;
 }
 
-inline Vector3& operator-=(Vector3& v1, const Vector3& v2) {
+Vector3& operator-=(Vector3& v1, const Vector3& v2) {
 	v1 = v1 - v2;
 	return v1;
 }
 
-inline Vector3& operator*=(Vector3& v, float scalar) {
+Vector3& operator*=(Vector3& v, float scalar) {
 	v = v * scalar;
 	return v;
 }
