@@ -1,24 +1,68 @@
 #include "Mymath.h"
 //
-//#include "Vector2.h"
-//#include "Vector3.h"
-//#include "Vector4.h"
+// #include "Vector2.h"
+// #include "Vector3.h"
+// #include "Vector4.h"
 //
-//#include "Matrix4x4.h"
+// #include "Matrix4x4.h"
 
 #include <cassert>
 #include <cmath>
 
+#include "Matrix4x4.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
-#include "Matrix4x4.h"
 
 // using namespace Mymath;
 
 #pragma region Vector
 
 #pragma region Vector2
+
+#pragma region Operator OverLoad
+
+inline Vector2 operator+(const Vector2& v1, const Vector2& v2) {
+	Vector2 temp;
+	temp.x = v1.x + v2.x;
+	temp.y = v1.y + v2.y;
+	return temp;
+}
+inline Vector2 operator-(const Vector2& v1, const Vector2& v2) {
+	Vector2 temp;
+	temp.x = v1.x - v2.x;
+	temp.y = v1.y - v2.y;
+	return temp;
+}
+inline Vector2 operator*(const Vector2& v, float scalar) {
+	Vector2 temp;
+	temp.x = v.x * scalar;
+	temp.y = v.y * scalar;
+	return temp;
+}
+inline Vector2 operator*(float scalar, const Vector2& v) {
+	Vector2 temp;
+	temp.x = v.x * scalar;
+	temp.y = v.y * scalar;
+	return temp;
+}
+
+inline Vector2& operator+=(Vector2& v1, const Vector2& v2) {
+	v1 = v1 + v2;
+	return v1;
+}
+
+inline Vector2& operator-=(Vector2& v1, const Vector2& v2) {
+	v1 = v1 - v2;
+	return v1;
+}
+
+inline Vector2& operator*=(Vector2& v, float scalar) {
+	v = v * scalar;
+	return v;
+}
+
+#pragma endregion
 
 // 加算
 Vector2 Mymath::Add(const Vector2& v1, const Vector2& v2) { return v1 + v2; }
@@ -59,6 +103,54 @@ Vector2 Mymath::Transform(const Vector2& vector, const Matrix3x3& matrix) {
 #pragma endregion
 
 #pragma region Vector3
+
+#pragma region Operator OverLoad
+
+inline Vector3 operator+(const Vector3& v1, const Vector3& v2) {
+	Vector3 temp;
+	temp.x = v1.x + v2.x;
+	temp.y = v1.y + v2.y;
+	temp.z = v1.z + v2.z;
+	return temp;
+}
+inline Vector3 operator-(const Vector3& v1, const Vector3& v2) {
+	Vector3 temp;
+	temp.x = v1.x - v2.x;
+	temp.y = v1.y - v2.y;
+	temp.z = v1.z - v2.z;
+	return temp;
+}
+inline Vector3 operator*(const Vector3& v, float scalar) {
+	Vector3 temp;
+	temp.x = v.x * scalar;
+	temp.y = v.y * scalar;
+	temp.z = v.z * scalar;
+	return temp;
+}
+inline Vector3 operator*(float scalar, const Vector3& v) {
+	Vector3 temp;
+	temp.x = v.x * scalar;
+	temp.y = v.y * scalar;
+	temp.z = v.z * scalar;
+	return temp;
+}
+
+inline Vector3& operator+=(Vector3& v1, const Vector3& v2) {
+	v1 = v1 + v2;
+	return v1;
+}
+
+inline Vector3& operator-=(Vector3& v1, const Vector3& v2) {
+	v1 = v1 - v2;
+	return v1;
+}
+
+inline Vector3& operator*=(Vector3& v, float scalar) {
+	v = v * scalar;
+	return v;
+}
+
+#pragma endregion
 
 // 加算
 Vector3 Mymath::Add(const Vector3& v1, const Vector3& v2) { return v1 + v2; }
@@ -120,6 +212,58 @@ Vector3 Mymath::TransformNormal(const Vector3& v, const Matrix4x4& m) {
 #pragma endregion
 
 #pragma region Vector4
+
+#pragma region Operator OverLoad
+
+inline Vector4 operator+(const Vector4& v1, const Vector4& v2) {
+	Vector4 temp;
+	temp.x = v1.x + v2.x;
+	temp.y = v1.y + v2.y;
+	temp.z = v1.z + v2.z;
+	temp.w = v1.w + v2.w;
+	return temp;
+}
+inline Vector4 operator-(const Vector4& v1, const Vector4& v2) {
+	Vector4 temp;
+	temp.x = v1.x - v2.x;
+	temp.y = v1.y - v2.y;
+	temp.z = v1.z - v2.z;
+	temp.w = v1.w - v2.w;
+	return temp;
+}
+inline Vector4 operator*(const Vector4& v, float scalar) {
+	Vector4 temp;
+	temp.x = v.x * scalar;
+	temp.y = v.y * scalar;
+	temp.z = v.z * scalar;
+	temp.w = v.w * scalar;
+	return temp;
+}
+inline Vector4 operator*(float scalar, const Vector4& v) {
+	Vector4 temp;
+	temp.x = v.x * scalar;
+	temp.y = v.y * scalar;
+	temp.z = v.z * scalar;
+	temp.w = v.w * scalar;
+	return temp;
+}
+
+inline Vector4& operator+=(Vector4& v1, const Vector4& v2) {
+	v1 = v1 + v2;
+	return v1;
+}
+
+inline Vector4& operator-=(Vector4& v1, const Vector4& v2) {
+	v1 = v1 - v2;
+	return v1;
+}
+
+inline Vector4& operator*=(Vector4& v, float scalar) {
+	v = v * scalar;
+	return v;
+}
+
+#pragma endregion
 
 // 加算
 Vector4 Mymath::Add(const Vector4& v1, const Vector4& v2) { return v1 + v2; }
