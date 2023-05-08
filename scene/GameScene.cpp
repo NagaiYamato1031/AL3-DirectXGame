@@ -5,12 +5,15 @@
 #include <cassert>
 
 #include "Player.h"
+#include "Enemy.h"
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 	delete player_;
 	delete playerModel_;
+	delete enemy_;
+	delete enemyModel_;
 	delete debugCamera_;
 }
 
@@ -22,8 +25,14 @@ void GameScene::Initialize() {
 
 	// テクスチャを読み込み
 	textureHandle_ = TextureManager::Load("white1x1.png");
+	// エネミーのテクスチャ
+	enemyTextureHandle_ = TextureManager::Load("uvChecker.png");
 
+	// プレイヤーのモデル
 	playerModel_ = Model::Create();
+	// エネミーのモデル
+	enemyModel_ = Model::Create();
+
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
@@ -32,7 +41,11 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initialze(playerModel_, textureHandle_);
 
-	
+	// エネミーの生成
+	enemy_ = new Enemy();
+	// エネミーの初期化
+	enemy_->Initialize(enemyModel_, enemyTextureHandle_);
+
 	debugCamera_ = new DebugCamera(1280, 720);
 
 	// 軸方向表示の表示を有効にする
@@ -60,6 +73,10 @@ void GameScene::Update() {
 		viewProjection_.UpdateMatrix();
 	}
 
+	// エネミーの更新
+	if (enemy_ != nullptr) {
+		enemy_->Update();
+	}
 	// プレイヤーの更新
 	player_->Update();
 }
@@ -90,6 +107,10 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
+	if (enemy_ != nullptr) {
+		enemy_->Draw(viewProjection_);
+	}
 	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理

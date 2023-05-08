@@ -12,7 +12,7 @@
 #include "DebugCamera.h"
 
 class Player;
-
+class Enemy;
 
 /// <summary>
 /// ゲームシーン
@@ -54,15 +54,24 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 
-	// モデル
+	// プレイヤーのモデル
 	Model* playerModel_ = nullptr;
+	// エネミーのモデル
+	Model* enemyModel_ = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+	// エネミーのテクスチャ
+	uint32_t enemyTextureHandle_ = 0u;
+
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 
+	// プレイヤー
 	Player* player_ = nullptr;
+
+	// エネミー
+	Enemy* enemy_ = nullptr;
 
 	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
