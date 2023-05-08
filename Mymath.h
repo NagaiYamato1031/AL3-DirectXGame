@@ -9,6 +9,34 @@ struct Matrix3x3 {
 };
 struct Matrix4x4;
 
+#pragma region Oprator OverLoad
+
+inline extern Vector2 operator+(const Vector2& v1, const Vector2& v2);
+inline extern Vector2 operator-(const Vector2& v1, const Vector2& v2);
+inline extern Vector2 operator*(const Vector2& v, float scalar);
+inline extern Vector2 operator*(float scalar, const Vector2& v);
+inline extern Vector2& operator+=(Vector2& v1, const Vector2& v2);
+inline extern Vector2& operator-=(Vector2& v1, const Vector2& v2);
+inline extern Vector2& operator*=(Vector2& v, float scalar);
+
+inline extern Vector3 operator+(const Vector3& v1, const Vector3& v2);
+inline extern Vector3 operator-(const Vector3& v1, const Vector3& v2);
+inline extern Vector3 operator*(const Vector3& v, float scalar);
+inline extern Vector3 operator*(float scalar, const Vector3& v);
+inline extern Vector3& operator+=(Vector3& v1, const Vector3& v2);
+inline extern Vector3& operator-=(Vector3& v1, const Vector3& v2);
+inline extern Vector3& operator*=(Vector3& v, float scalar);
+
+inline extern Vector4 operator+(const Vector4& v1, const Vector4& v2);
+inline extern Vector4 operator-(const Vector4& v1, const Vector4& v2);
+inline extern Vector4 operator*(const Vector4& v, float scalar);
+inline extern Vector4 operator*(float scalar, const Vector4& v);
+inline extern Vector4& operator+=(Vector4& v1, const Vector4& v2);
+inline extern Vector4& operator-=(Vector4& v1, const Vector4& v2);
+inline extern Vector4& operator*=(Vector4& v, float scalar);
+
+#pragma endregion
+
 namespace Mymath {
 
 #pragma region Vector
