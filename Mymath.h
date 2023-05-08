@@ -136,6 +136,14 @@ Vector3 Normalize(const Vector3& v);
 /// <returns>変換座標</returns>
 Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 
+/// <summary>
+///	ベクトル変換
+/// </summary>
+/// <param name="v">ベクトル</param>
+/// <param name="m">行列</param>
+/// <returns>変換ベクトル</returns>
+Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
+
 // End Vector3
 #pragma endregion
 
