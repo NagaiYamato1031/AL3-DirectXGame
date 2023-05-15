@@ -1,8 +1,13 @@
 #pragma once
 
-#include "WorldTransform.h"
 #include "Model.h"
 #include "ViewProjection.h"
+#include "WorldTransform.h"
+
+enum class Phase {
+	Approach, // 接近する
+	Leave,    // 離脱する
+};
 
 /// <summary>
 /// 敵
@@ -24,8 +29,12 @@ public:
 	/// </summary>
 	void Draw(const ViewProjection& viewProjection);
 
-private:	// メンバ変数
+private: // メンバ関数
 
+	void Approach();
+	void Leave();
+
+private: // メンバ変数
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
 
@@ -34,5 +43,6 @@ private:	// メンバ変数
 
 	uint32_t textureHandle_ = 0u;
 
-
+	// フェーズ
+	Phase phase_ = Phase::Approach;
 };

@@ -22,20 +22,22 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 }
 
 void Enemy::Update() {
-	// 移動ベクトルの設定
-	Vector3 move = {0, 0, 0};
 
-	// キャラクターの移動の速さ
-	const float kCharacterSpeed = 0.2f;
+	Vector3 move{0.0f, 0.0f, 0.0f};
 
-	move.z -= kCharacterSpeed;
-
-	// 座標加算(ベクトルの加算)
-	worldTransform_.translation_ += move;
+	switch (phase_) {
+	case Phase::Approach:
+	default:
+		Approach();
+		break;
+	case Phase::Leave:
+		Leave();
+		break;
+	}
 
 	// 移動限界座標
-	const float kMoveLimitX = 32.5f;
-	const float kMoveLimitY = 17.5f;
+	const float kMoveLimitX = 50.0f;
+	const float kMoveLimitY = 30.0f;
 	const float kMoveLimitZ = 50.0f;
 
 	// 範囲を超えない処理
@@ -53,4 +55,22 @@ void Enemy::Update() {
 void Enemy::Draw(const ViewProjection& viewProjection) {
 	// 3D モデルを描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+}
+
+void Enemy::Approach() {
+	Vector3 move{0.0f, 0.0f, 0.0f};
+	move.z = -0.3f;
+	// 移動速度
+	worldTransform_.translation_ += move;
+	// 既定の位置に到達したら離脱
+	if (worldTransform_.translation_.z < 0.0f) {
+		phase_ = Phase::Leave;
+	}
+}
+void Enemy::Leave() {
+	Vector3 move{0.0f, 0.0f, 0.0f};
+	move.x = 0.3f;
+	move.y = 0.1f;
+	// 移動
+	worldTransform_.translation_ += move;
 }
