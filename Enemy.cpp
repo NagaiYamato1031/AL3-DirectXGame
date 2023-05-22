@@ -8,6 +8,12 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
+Enemy::~Enemy() {
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
+
 void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 
 	assert(model);
@@ -17,12 +23,24 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 
 	worldTransform_.Initialize();
 
+	worldTransform_.translation_.x = 10;
 	worldTransform_.translation_.y = 5;
 	worldTransform_.translation_.z = 50;
+
+	//Fire();
+	InitApproach();
 }
 
 void Enemy::Update() {
 
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+	
 	Vector3 move{0.0f, 0.0f, 0.0f};
 
 	switch (phase_) {
@@ -33,6 +51,18 @@ void Enemy::Update() {
 	case Phase::Leave:
 		Leave();
 		break;
+	}
+	// 発射タイマーをデクリメント
+	fireTimer--;
+	if (fireTimer <= 0) {
+		Fire();
+		fireTimer = kFireInterval;
+	}
+
+
+	// 弾更新
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Update();
 	}
 
 	// 移動限界座標
@@ -55,7 +85,18 @@ void Enemy::Update() {
 void Enemy::Draw(const ViewProjection& viewProjection) {
 	// 3D モデルを描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	// 弾描画
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection);
+	}
 }
+
+void Enemy::InitApproach() {
+	// 発射タイマーの設定
+	fireTimer = 30;
+}
+
+
 
 void Enemy::Approach() {
 	Vector3 move{0.0f, 0.0f, 0.0f};
@@ -73,4 +114,21 @@ void Enemy::Leave() {
 	move.y = 0.1f;
 	// 移動
 	worldTransform_.translation_ += move;
+}
+
+void Enemy::Fire() {
+
+	// 弾の速度
+	const float kBulletSpeed = -1.0f;
+	Vector3 velocity{0, 0, kBulletSpeed};
+
+	// 速度ベクトルを自機の向きに合わせて回転する
+	velocity = Mymath::TransformNormal(velocity, worldTransform_.matWorld_);
+
+	// 弾を生成し、初期化
+	EnemyBullet* newBullet = new EnemyBullet();
+	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+
+	// 弾を登録する
+	bullets_.push_back(newBullet);
 }
