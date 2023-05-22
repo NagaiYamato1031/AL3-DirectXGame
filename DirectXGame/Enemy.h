@@ -4,6 +4,9 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include <list>
+#include "EnemyBullet.h"
+
 enum class Phase {
 	Approach, // 接近する
 	Leave,    // 離脱する
@@ -14,6 +17,11 @@ enum class Phase {
 /// </summary>
 class Enemy {
 public:
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Enemy();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -31,10 +39,18 @@ public:
 
 private: // メンバ関数
 
+	void InitApproach();
+
 	void Approach();
 	void Leave();
+	void Fire();
 
 private: // メンバ変数
+
+	// 弾の発射間隔
+	static const int kFireInterval = 60;
+
+
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
 
@@ -45,4 +61,11 @@ private: // メンバ変数
 
 	// フェーズ
 	Phase phase_ = Phase::Approach;
+
+	// 弾
+	std::list<EnemyBullet*> bullets_;
+
+	// 発射タイマー
+	int32_t fireTimer = 0;
+
 };
