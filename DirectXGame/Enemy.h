@@ -43,6 +43,13 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	// 衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
+
+public: // ゲッターセッター
+	// 弾リストを取得
+	const std::list<EnemyBullet*>& GetBullets() { return bullets_; }
+
 private: // メンバ関数
 
 	void InitApproach();

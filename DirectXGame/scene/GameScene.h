@@ -45,6 +45,11 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheckAllCollision();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -53,6 +58,13 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+
+	const float kPlayerRadius = 1.0f;
+	const float kPlayerBulletRadius = 1.0f;
+	const float kEnemyRadius = 1.0f;
+	const float kEnemyBulletRadius = 1.0f;
+
+
 
 	// プレイヤーのモデル
 	Model* playerModel_ = nullptr;

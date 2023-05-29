@@ -103,6 +103,11 @@ Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
+void Enemy::OnCollision() {
+	// 何もしない
+}
+
+
 void Enemy::InitApproach() {
 	// 発射タイマーの設定
 	fireTimer = 30;

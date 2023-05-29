@@ -39,3 +39,17 @@ void EnemyBullet::Draw(const ViewProjection& viewProjection) {
 	// モデルの描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
+
+Vector3 EnemyBullet::GetWorldPosition() {
+	Vector3 worldPos;
+
+	worldPos = Mymath::TransformNormal(worldTransform_.translation_, worldTransform_.matWorld_);
+	//// ワールド座標の平行移動成分を取得
+	// worldPos.x = worldTransform_.translation_.x * worldTransform_.matWorld_.m[3][0];
+	// worldPos.y = worldTransform_.translation_.y * worldTransform_.matWorld_.m[3][1];
+	// worldPos.z = worldTransform_.translation_.z * worldTransform_.matWorld_.m[3][2];
+	return worldPos;
+}
+
+
+void EnemyBullet::OnCollision() { isDead_ = true; }

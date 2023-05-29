@@ -5,10 +5,15 @@
 #include "Vector4.h"
 #include "Matrix4x4.h"
 
-
 struct Matrix3x3 {
 	float m[3][3];
 };
+
+struct Sphere;
+struct Line;
+struct Ray;
+struct Segment;
+struct Plane;
 
 #pragma region Oprator OverLoad
 
@@ -181,6 +186,29 @@ namespace Mymath {
 	/// <returns>変換ベクトル</returns>
 	Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
 
+	/// <summary>
+	/// ベクトル射影
+	/// </summary>
+	/// <param name="v1">ベクトル１</param>
+	/// <param name="v2">ベクトル２</param>
+	/// <returns>正射影ベクトル</returns>
+	Vector3 Project(const Vector3& v1, const Vector3& v2);
+
+	/// <summary>
+	/// 最近接点を求める
+	/// </summary>
+	/// <param name="point">始点</param>
+	/// <param name="segment">線分</param>
+	/// <returns>始点に最も近い線分 t の座標</returns>
+	Vector3 CrossPoint(const Vector3& point, const Segment& segment);
+
+	/// <summary>
+	/// 垂直を求める
+	/// </summary>
+	/// <param name="vector">ベクトル</param>
+	/// <returns>垂直なベクトル</returns>
+	Vector3 Perpendicular(const Vector3& vector);
+
 	// End Vector3
 #pragma endregion
 
@@ -244,6 +272,46 @@ namespace Mymath {
 #pragma endregion
 
 // End Vector
+#pragma endregion
+
+#pragma region Sphere
+
+	/// <summary>
+	/// 球と球の衝突判定
+	/// </summary>
+	/// <param name="s1">球 1</param>
+	/// <param name="s2">球 2</param>
+	/// <returns>true:衝突している,false:衝突していない</returns>
+	bool IsCollision(const Sphere& s1, const Sphere& s2);
+	/// <summary>
+	/// 球と平面の衝突判定
+	/// </summary>
+	/// <param name="sphere">球</param>
+	/// <param name="plane">平面</param>
+	/// <returns>true:衝突している,false:衝突していない</returns>
+	bool IsCollision(const Sphere& sphere, const Plane& plane);
+	/// <summary>
+	/// 線と平面の衝突判定
+	/// </summary>
+	/// <param name="plane">平面</param>
+	/// <param name="line">直線</param>
+	/// <returns></returns>
+	bool IsCollision(const Plane& plane, const Line& line);
+	/// <summary>
+	/// 線と平面の衝突判定
+	/// </summary>
+	/// <param name="plane">平面</param>
+	/// <param name="line">半直線</param>
+	/// <returns></returns>
+	bool IsCollision(const Plane& plane, const Ray& ray);
+	/// <summary>
+	/// 線と平面の衝突判定
+	/// </summary>
+	/// <param name="plane">平面</param>
+	/// <param name="line">線分</param>
+	/// <returns></returns>
+	bool IsCollision(const Plane& plane, const Segment& segment);
+
 #pragma endregion
 
 #pragma region Matrix

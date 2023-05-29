@@ -25,12 +25,17 @@ public:
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Draw(const ViewProjection& viewProjection);
-
+	
 public: // ゲッターセッター
 	bool IsDead() const { return isDead_; }
 
+	Vector3 GetWorldPosition();
+
 	// 寿命
 	static const int32_t kLifeTime = 60 * 5;
+
+	// 衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
 
 private:	// メンバー変数
 
