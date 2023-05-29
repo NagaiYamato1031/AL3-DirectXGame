@@ -3,15 +3,15 @@
 #include "ImGuiManager.h"
 #include <cassert>
 
+#include "Matrix4x4.h"
 #include "Mymath.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
-#include "Matrix4x4.h"
 
 #include "PlayerBullet.h"
 
-Player::~Player() { 
+Player::~Player() {
 	for (PlayerBullet* bullet : bullets_) {
 		delete bullet;
 	}
@@ -41,7 +41,6 @@ void Player::Update() {
 		return false;
 	});
 
-	
 	// 旋回
 	Rotate();
 
@@ -63,7 +62,6 @@ void Player::Update() {
 	} else if (input_->PushKey(DIK_DOWN)) {
 		move.y -= kCharacterSpeed;
 	}
-	
 
 	// 座標加算(ベクトルの加算)
 	worldTransform_.translation_ = Mymath::Add(worldTransform_.translation_, move);
@@ -89,7 +87,6 @@ void Player::Update() {
 		bullet->Update();
 	}
 
-
 	ImGui::Begin("Player");
 	float* translate[3] = {
 	    &worldTransform_.translation_.x, &worldTransform_.translation_.y,
@@ -107,6 +104,17 @@ void Player::Draw(const ViewProjection& viewProjection) {
 	}
 }
 
+Vector3 Player::GetWorldPosition() {
+	Vector3 worldPos;
+
+	worldPos = Mymath::TransformNormal(worldTransform_.translation_, worldTransform_.matWorld_);
+	//// ワールド座標の平行移動成分を取得
+	// worldPos.x = worldTransform_.translation_.x * worldTransform_.matWorld_.m[3][0];
+	// worldPos.y = worldTransform_.translation_.y * worldTransform_.matWorld_.m[3][1];
+	// worldPos.z = worldTransform_.translation_.z * worldTransform_.matWorld_.m[3][2];
+	return worldPos;
+}
+
 // プライベート関数
 
 void Player::Rotate() {
@@ -121,12 +129,12 @@ void Player::Rotate() {
 	}
 }
 
-void Player::Attack() { 
+void Player::Attack() {
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 
 		// 弾の速度
-		 const float kBulletSpeed = 1.0f;
+		const float kBulletSpeed = 1.0f;
 		Vector3 velocity{0, 0, kBulletSpeed};
 
 		// 速度ベクトルを自機の向きに合わせて回転する
@@ -134,7 +142,7 @@ void Player::Attack() {
 
 		// 弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_,velocity);
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
 		// 弾を登録する
 		bullets_.push_back(newBullet);

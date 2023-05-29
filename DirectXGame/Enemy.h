@@ -7,6 +7,8 @@
 #include <list>
 #include "EnemyBullet.h"
 
+class Player;
+
 enum class Phase {
 	Approach, // 接近する
 	Leave,    // 離脱する
@@ -36,6 +38,10 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw(const ViewProjection& viewProjection);
+
+	void SetPlayer(Player* player) { player_ = player; }
+
+	Vector3 GetWorldPosition();
 
 private: // メンバ関数
 
@@ -67,5 +73,7 @@ private: // メンバ変数
 
 	// 発射タイマー
 	int32_t fireTimer = 0;
+
+	Player* player_;
 
 };
