@@ -1,11 +1,13 @@
 #include "GameScene.h"
-#include "TextureManager.h"
 #include "AxisIndicator.h"
+#include "TextureManager.h"
 
 #include <cassert>
 
-#include "Player.h"
 #include "Enemy.h"
+#include "Player.h"
+#include "EnemyBullet.h"
+#include "PlayerBullet.h"
 
 GameScene::GameScene() {}
 
@@ -54,7 +56,6 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
-
 }
 
 void GameScene::Update() {
@@ -81,6 +82,8 @@ void GameScene::Update() {
 	}
 	// プレイヤーの更新
 	player_->Update();
+
+	CheckAllCollision();
 }
 
 void GameScene::Draw() {
@@ -109,7 +112,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
+
 	if (enemy_ != nullptr) {
 		enemy_->Draw(viewProjection_);
 	}
@@ -129,6 +132,68 @@ void GameScene::Draw() {
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
+
+#pragma endregion
+}
+
+void GameScene::CheckAllCollision() {
+	// 対象対象 A と B の座標
+	Vector3 posA, posB;
+	// 自弾リストの取得
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	// 敵弾リストの取得
+	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+
+#pragma region 自キャラと敵弾の当たり判定
+	
+	posA = player_->GetWorldPosition();
+	for (EnemyBullet* bullet : enemyBullets) {
+		// 敵弾の座標
+		posB = bullet->GetWorldPosition();
+
+		float distance = Mymath::Length(posA - posB);
+		if (distance <= kPlayerRadius + kEnemyBulletRadius) {
+			player_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+
+
+
+#pragma endregion
+#pragma region 敵キャラと自弾の当たり判定
+	
+	
+	posA = enemy_->GetWorldPosition();
+	for (PlayerBullet* bullet : playerBullets) {
+		// 敵弾の座標
+		posB = bullet->GetWorldPosition();
+
+		float distance = Mymath::Length(posA - posB);
+		if (distance <= kEnemyRadius + kPlayerBulletRadius) {
+			enemy_-> OnCollision();
+			bullet->OnCollision();
+		}
+	}
+
+
+#pragma endregion
+#pragma region 自弾と敵弾の当たり判定
+
+	for (EnemyBullet* bulletA : enemyBullets) {
+		posA = bulletA->GetWorldPosition();
+		for (PlayerBullet* bulletB : playerBullets) {
+			// 敵弾の座標
+			posB = bulletB->GetWorldPosition();
+
+			float distance = Mymath::Length(posA - posB);
+			if (distance <= kPlayerBulletRadius + kEnemyBulletRadius) {
+				bulletA->OnCollision();
+				bulletB->OnCollision();
+			}
+		}
+	}
+
 
 #pragma endregion
 }

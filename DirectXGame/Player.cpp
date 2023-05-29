@@ -115,6 +115,10 @@ Vector3 Player::GetWorldPosition() {
 	return worldPos;
 }
 
+void Player::OnCollision() {
+	// 何もしない
+}
+
 // プライベート関数
 
 void Player::Rotate() {
