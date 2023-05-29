@@ -34,6 +34,9 @@ public:
 	/// <param name="viewProjectioin">ビュープロジェクション</param>
 	void Draw(const ViewProjection& viewProjectioin);
 
+
+	Vector3 GetWorldPosition();
+
 private: // メンバ関数
 
 	/// <summary>
