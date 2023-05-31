@@ -4,6 +4,8 @@
 
 #include <cassert>
 
+#include "Skydome.h"
+
 #include "Enemy.h"
 #include "Player.h"
 #include "EnemyBullet.h"
@@ -12,6 +14,8 @@
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
+	delete skydome_;
+	delete skydomeModel_;
 	delete player_;
 	delete playerModel_;
 	delete enemy_;
@@ -30,6 +34,9 @@ void GameScene::Initialize() {
 	// エネミーのテクスチャ
 	enemyTextureHandle_ = TextureManager::Load("uvChecker.png");
 
+	// 3D モデルの生成
+	skydomeModel_ = Model::CreateFromOBJ("skydome", true);
+
 	// プレイヤーのモデル
 	playerModel_ = Model::Create();
 	// エネミーのモデル
@@ -37,6 +44,11 @@ void GameScene::Initialize() {
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+
+	// 天球の作成
+	skydome_ = new Skydome();
+	// 天球の初期化
+	skydome_->Initialize(skydomeModel_);
 
 	// 自キャラの生成
 	player_ = new Player();
@@ -99,6 +111,7 @@ void GameScene::Draw() {
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
 
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -112,6 +125,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	skydome_->Draw(viewProjection_);
 
 	if (enemy_ != nullptr) {
 		enemy_->Draw(viewProjection_);

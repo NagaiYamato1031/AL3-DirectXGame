@@ -11,6 +11,8 @@
 
 #include "DebugCamera.h"
 
+
+class Skydome;
 class Player;
 class Enemy;
 
@@ -65,6 +67,8 @@ private: // メンバ変数
 	const float kEnemyBulletRadius = 1.0f;
 
 
+	// 天球のモデル
+	Model* skydomeModel_ = nullptr;
 
 	// プレイヤーのモデル
 	Model* playerModel_ = nullptr;
@@ -78,6 +82,9 @@ private: // メンバ変数
 
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	// 天球
+	Skydome* skydome_ = nullptr;
 
 	// プレイヤー
 	Player* player_ = nullptr;
