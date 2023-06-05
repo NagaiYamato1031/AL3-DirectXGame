@@ -20,7 +20,8 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="textureHandle">テクスチャハンドル</param>
-	void Initialze(Model* model, uint32_t textureHandle);
+	/// <param name="position">カメラから前にずらす量</param>
+	void Initialze(Model* model, uint32_t textureHandle,const Vector3& position);
 
 	/// <summary>
 	/// 更新
@@ -42,6 +43,12 @@ public: // ゲッターセッター
 
 	// 弾リストを取得
 	const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
+
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent){ worldTransform_.parent_ = parent; }
 
 private: // メンバ関数
 	/// <summary>

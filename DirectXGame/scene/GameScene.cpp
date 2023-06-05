@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "AxisIndicator.h"
+#include "ImGuiManager.h"
 #include "TextureManager.h"
 
 #include <cassert>
@@ -7,9 +8,10 @@
 #include "Skydome.h"
 
 #include "Enemy.h"
-#include "Player.h"
 #include "EnemyBullet.h"
+#include "Player.h"
 #include "PlayerBullet.h"
+#include "RailCamera.h"
 
 GameScene::GameScene() {}
 
@@ -45,6 +47,12 @@ void GameScene::Initialize() {
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
+	// レールカメラの作成
+	railCamera_ = new RailCamera();
+	// レールカメラの初期化
+	railCamera_->SetFarZ(2000.0f);
+	railCamera_->Initialize({0.0f, 0.0f, -10.0f}, {0.0f, 0.0f, 0.0f});
+
 	// 天球の作成
 	skydome_ = new Skydome();
 	// 天球の初期化
@@ -53,7 +61,9 @@ void GameScene::Initialize() {
 	// 自キャラの生成
 	player_ = new Player();
 	// 自キャラの初期化
-	player_->Initialze(playerModel_, textureHandle_);
+	Vector3 playerPosition{0.0f, 0.0f, 20.0f};
+	player_->Initialze(playerModel_, textureHandle_, playerPosition);
+	player_->SetParent(&railCamera_->GetWorldTransform());
 
 	// エネミーの生成
 	enemy_ = new Enemy();
@@ -72,12 +82,33 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 #ifdef _DEBUG
+
+	ImGui::Begin("Debug");
+	if (ImGui::RadioButton("RailCamera", isRailCameraActive_)) {
+		isRailCameraActive_ = true;
+		isDebugCameraActive_ = false;
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("DebugCamera", isDebugCameraActive_)) {
+		isDebugCameraActive_ = true;
+		isRailCameraActive_ = false;
+	}
+	ImGui::End();
 	if (input_->TriggerKey(DIK_BACKSPACE)) {
 		isDebugCameraActive_ = !isDebugCameraActive_;
 	}
 #endif // _DEBUG
 
-	if (isDebugCameraActive_) {
+	if (isRailCameraActive_) {
+		// レールカメラの更新
+		railCamera_->Update();
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクションの転送
+		viewProjection_.TransferMatrix();
+	} else if (isDebugCameraActive_) {
+		// レールカメラの更新
+		railCamera_->Update();
 		// デバッグカメラの更新
 		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
@@ -110,7 +141,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -159,7 +189,7 @@ void GameScene::CheckAllCollision() {
 	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
 
 #pragma region 自キャラと敵弾の当たり判定
-	
+
 	posA = player_->GetWorldPosition();
 	for (EnemyBullet* bullet : enemyBullets) {
 		// 敵弾の座標
@@ -172,12 +202,9 @@ void GameScene::CheckAllCollision() {
 		}
 	}
 
-
-
 #pragma endregion
 #pragma region 敵キャラと自弾の当たり判定
-	
-	
+
 	posA = enemy_->GetWorldPosition();
 	for (PlayerBullet* bullet : playerBullets) {
 		// 敵弾の座標
@@ -185,11 +212,10 @@ void GameScene::CheckAllCollision() {
 
 		float distance = Mymath::Length(posA - posB);
 		if (distance <= kEnemyRadius + kPlayerBulletRadius) {
-			enemy_-> OnCollision();
+			enemy_->OnCollision();
 			bullet->OnCollision();
 		}
 	}
-
 
 #pragma endregion
 #pragma region 自弾と敵弾の当たり判定
@@ -207,7 +233,6 @@ void GameScene::CheckAllCollision() {
 			}
 		}
 	}
-
 
 #pragma endregion
 }
