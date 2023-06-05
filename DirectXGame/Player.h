@@ -4,9 +4,7 @@
 #include "Sprite.h"
 #include "WorldTransform.h"
 
-#include <list>
-
-class PlayerBullet;
+class GameScene;
 
 class Player {
 public:
@@ -42,13 +40,19 @@ public:
 public: // ゲッターセッター
 
 	// 弾リストを取得
-	const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
+	//const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
 
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
 	/// </summary>
 	/// <param name="parent">親となるワールドトランスフォーム</param>
 	void SetParent(const WorldTransform* parent){ worldTransform_.parent_ = parent; }
+
+	/// <summary>
+	/// ゲームシーンの設定
+	/// </summary>
+	/// <param name="gameScene">ゲームシーン</param>
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private: // メンバ関数
 	/// <summary>
@@ -72,6 +76,9 @@ private: // メンバ変数
 	// キーボード入力
 	Input* input_ = nullptr;
 
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
+
 	// 弾
-	std::list<PlayerBullet*> bullets_;
+	//std::list<PlayerBullet*> bullets_;
 };

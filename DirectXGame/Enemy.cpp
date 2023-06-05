@@ -9,11 +9,11 @@
 #include "Vector4.h"
 
 #include "Player.h"
+#include "GameScene.h"
+#include "EnemyBullet.h"
 
 Enemy::~Enemy() {
-	for (EnemyBullet* bullet : bullets_) {
-		delete bullet;
-	}
+
 }
 
 void Enemy::Initialize(Model* model, uint32_t textureHandle) {
@@ -35,13 +35,13 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 
 void Enemy::Update() {
 
-	bullets_.remove_if([](EnemyBullet* bullet) {
+	/*bullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;
 			return true;
 		}
 		return false;
-	});
+	});*/
 
 	Vector3 move{0.0f, 0.0f, 0.0f};
 
@@ -78,18 +78,18 @@ void Enemy::Update() {
 	}
 
 	// 弾更新
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Update();
-	}
+	//for (EnemyBullet* bullet : bullets_) {
+	//	bullet->Update();
+	//}
 }
 
 void Enemy::Draw(const ViewProjection& viewProjection) {
 	// 3D モデルを描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 	// 弾描画
-	for (EnemyBullet* bullet : bullets_) {
+	/*for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection);
-	}
+	}*/
 }
 
 Vector3 Enemy::GetWorldPosition() {
@@ -105,9 +105,7 @@ Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
-void Enemy::OnCollision() {
-	// 何もしない
-}
+void Enemy::OnCollision() { isDead_ = true; }
 
 
 void Enemy::InitApproach() {
@@ -117,7 +115,7 @@ void Enemy::InitApproach() {
 
 void Enemy::Approach() {
 	Vector3 move{0.0f, 0.0f, 0.0f};
-	move.z = -0.2f;
+	move.z = -0.05f;
 	// 移動速度
 	worldTransform_.translation_ += move;
 	// 既定の位置に到達したら離脱
@@ -129,6 +127,7 @@ void Enemy::Leave() {
 	Vector3 move{0.0f, 0.0f, 0.0f};
 	move.x = 0.2f;
 	move.y = 0.1f;
+	move.z = -0.05f;
 	// 移動
 	worldTransform_.translation_ += move;
 }
@@ -158,5 +157,6 @@ void Enemy::Fire() {
 	newBullet->Initialize(model_, worldTransform_.translation_, vel);
 
 	// 弾を登録する
-	bullets_.push_back(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
+	//bullets_.push_back(newBullet);
 }

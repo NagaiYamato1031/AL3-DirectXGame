@@ -9,12 +9,11 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
+#include "GameScene.h"
 #include "PlayerBullet.h"
 
 Player::~Player() {
-	for (PlayerBullet* bullet : bullets_) {
-		delete bullet;
-	}
+
 }
 
 void Player::Initialze(Model* model, uint32_t textureHandle,const Vector3& position) {
@@ -33,13 +32,13 @@ void Player::Initialze(Model* model, uint32_t textureHandle,const Vector3& posit
 void Player::Update() {
 
 	// デスフラグの立った弾を削除
-	bullets_.remove_if([](PlayerBullet* bullet) {
+	/*bullets_.remove_if([](PlayerBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;
 			return true;
 		}
 		return false;
-	});
+	});*/
 
 	// 旋回
 	Rotate();
@@ -83,9 +82,9 @@ void Player::Update() {
 	Attack();
 
 	// 弾更新
-	for (PlayerBullet* bullet : bullets_) {
+	/*for (PlayerBullet* bullet : bullets_) {
 		bullet->Update();
-	}
+	}*/
 
 	ImGui::Begin("Player");
 	float* translate[3] = {
@@ -99,9 +98,9 @@ void Player::Draw(const ViewProjection& viewProjection) {
 	// 3D モデルを描画
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 	// 弾描画
-	for (PlayerBullet* bullet : bullets_) {
-		bullet->Draw(viewProjection);
-	}
+	//for (PlayerBullet* bullet : bullets_) {
+	//	bullet->Draw(viewProjection);
+	//}
 }
 
 Vector3 Player::GetWorldPosition() {
@@ -154,6 +153,7 @@ void Player::Attack() {
 		newBullet->Initialize(model_, GetWorldPosition(), velocity);
 
 		// 弾を登録する
-		bullets_.push_back(newBullet);
+		gameScene_->AddPlayerBullet(newBullet);
+		//bullets_.push_back(newBullet);
 	}
 }
