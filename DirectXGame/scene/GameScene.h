@@ -11,10 +11,13 @@
 
 #include "DebugCamera.h"
 
+#include <sstream>
 
 class Skydome;
 class Player;
+class PlayerBullet;
 class Enemy;
+class EnemyBullet;
 class RailCamera;
 
 /// <summary>
@@ -53,6 +56,32 @@ public: // メンバ関数
 	/// </summary>
 	void CheckAllCollision();
 
+	/// <summary>
+	/// プレイヤーの弾をリストに追加する
+	/// </summary>
+	/// <param name="playerBullet">プレイヤーの弾</param>
+	void AddPlayerBullet(PlayerBullet* playerBullet);
+	/// <summary>
+	/// エネミーの弾をリストに追加する
+	/// </summary>
+	/// <param name="enemyBullet">エネミーの弾</param>
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
+private: // メンバ関数
+
+	/// <summary>
+	/// 敵発生データ読み込み
+	/// </summary>
+	void LoadEnemyPopData();
+
+	/// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+
+	void PopEnemy(const Vector3& position);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -66,7 +95,6 @@ private: // メンバ変数
 	const float kPlayerBulletRadius = 1.0f;
 	const float kEnemyRadius = 1.0f;
 	const float kEnemyBulletRadius = 1.0f;
-
 
 	// 天球のモデル
 	Model* skydomeModel_ = nullptr;
@@ -93,8 +121,15 @@ private: // メンバ変数
 	// プレイヤー
 	Player* player_ = nullptr;
 
+	// プレイヤーの弾リスト
+	std::list<PlayerBullet*> playerBullets_;
+
 	// エネミー
-	Enemy* enemy_ = nullptr;
+	// Enemy* enemy_ = nullptr;
+	std::list<Enemy*> enemyLists_;
+
+	// エネミーの弾リスト
+	std::list<EnemyBullet*> enemyBullets_;
 
 	// デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
@@ -102,5 +137,13 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 	// レールカメラ有効
 	bool isRailCameraActive_ = true;
+
+	// 敵発生コマンド
+	std::stringstream enemyPopCommands;
+
+	// 待機中フラグ
+	bool isWaitPopEnemy = false;
+	// 待機タイマー
+	int waitPopEnemyTimer = 0;
 
 };

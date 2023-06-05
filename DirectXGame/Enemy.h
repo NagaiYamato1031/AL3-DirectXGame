@@ -4,10 +4,9 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-#include <list>
-#include "EnemyBullet.h"
 
 class Player;
+class GameScene;
 
 enum class Phase {
 	Approach, // 接近する
@@ -48,7 +47,15 @@ public:
 
 public: // ゲッターセッター
 	// 弾リストを取得
-	const std::list<EnemyBullet*>& GetBullets() { return bullets_; }
+	//const std::list<EnemyBullet*>& GetBullets() { return bullets_; }
+	bool IsDead() const { return isDead_; }
+	/// <summary>
+	/// ゲームシーンの設定
+	/// </summary>
+	/// <param name="gameScene">ゲームシーン</param>
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
+	void SetPosition(const Vector3& position) { worldTransform_.translation_ = position; }
 
 private: // メンバ関数
 
@@ -76,11 +83,18 @@ private: // メンバ変数
 	Phase phase_ = Phase::Approach;
 
 	// 弾
-	std::list<EnemyBullet*> bullets_;
+	//std::list<EnemyBullet*> bullets_;
 
 	// 発射タイマー
 	int32_t fireTimer = 0;
 
-	Player* player_;
+	// プレイヤー
+	Player* player_ = nullptr;
+
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
+
+	// デスフラグ
+	bool isDead_ = false;
 
 };
