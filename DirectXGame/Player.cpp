@@ -17,7 +17,7 @@ Player::~Player() {
 	}
 }
 
-void Player::Initialze(Model* model, uint32_t textureHandle) {
+void Player::Initialze(Model* model, uint32_t textureHandle,const Vector3& position) {
 	// NULL ポインタチェック
 	assert(model);
 
@@ -25,7 +25,7 @@ void Player::Initialze(Model* model, uint32_t textureHandle) {
 	textureHandle_ = textureHandle;
 
 	worldTransform_.Initialize();
-
+	worldTransform_.translation_ = position;
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 }
@@ -120,6 +120,10 @@ void Player::OnCollision() {
 	// 何もしない
 }
 
+// ゲッターセッター
+
+
+
 // プライベート関数
 
 void Player::Rotate() {
@@ -147,7 +151,7 @@ void Player::Attack() {
 
 		// 弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+		newBullet->Initialize(model_, GetWorldPosition(), velocity);
 
 		// 弾を登録する
 		bullets_.push_back(newBullet);

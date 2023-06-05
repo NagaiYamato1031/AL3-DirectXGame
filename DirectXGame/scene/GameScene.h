@@ -15,6 +15,7 @@
 class Skydome;
 class Player;
 class Enemy;
+class RailCamera;
 
 /// <summary>
 /// ゲームシーン
@@ -83,6 +84,9 @@ private: // メンバ変数
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 
+	// レールカメラ
+	RailCamera* railCamera_ = nullptr;
+
 	// 天球
 	Skydome* skydome_ = nullptr;
 
@@ -96,5 +100,7 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;
 	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
+	// レールカメラ有効
+	bool isRailCameraActive_ = true;
 
 };
