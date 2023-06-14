@@ -19,12 +19,12 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="textureHandle">テクスチャハンドル</param>
 	/// <param name="position">カメラから前にずらす量</param>
-	void Initialze(Model* model, uint32_t textureHandle,const Vector3& position);
+	void Initialze(Model* model, uint32_t textureHandle, const Vector3& position);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(const ViewProjection& viewProjectioin);
 
 	/// <summary>
 	/// 描画
@@ -32,21 +32,28 @@ public:
 	/// <param name="viewProjectioin">ビュープロジェクション</param>
 	void Draw(const ViewProjection& viewProjectioin);
 
+	/// <summary>
+	/// UI 描画
+	/// </summary>
+	void DrawUI();
+
 	Vector3 GetWorldPosition();
 
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
 public: // ゲッターセッター
-
 	// 弾リストを取得
-	//const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
+	// const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
 
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
 	/// </summary>
 	/// <param name="parent">親となるワールドトランスフォーム</param>
-	void SetParent(const WorldTransform* parent){ worldTransform_.parent_ = parent; }
+	void SetParent(const WorldTransform* parent) {
+		worldTransform_.parent_ = parent;
+		worldTransform3DReticle_.parent_ = parent;
+	}
 
 	/// <summary>
 	/// ゲームシーンの設定
@@ -79,6 +86,11 @@ private: // メンバ変数
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
 
+	// 3D レティクル用ワールドトランスフォーム
+	WorldTransform worldTransform3DReticle_;
+
+	Sprite* sprite2DReticle_ = nullptr;
+
 	// 弾
-	//std::list<PlayerBullet*> bullets_;
+	// std::list<PlayerBullet*> bullets_;
 };

@@ -69,6 +69,10 @@ void GameScene::Initialize() {
 	// 天球の初期化
 	skydome_->Initialize(skydomeModel_);
 
+
+	// レティクルのテクスチャ
+	TextureManager::Load("reticle.png");
+
 	// 自キャラの生成
 	player_ = new Player();
 	// 自キャラの初期化
@@ -169,7 +173,7 @@ void GameScene::Update() {
 		enemy->Update();
 	}
 	// プレイヤーの更新
-	player_->Update();
+	player_->Update(railCamera_->GetViewProjection());
 	// 弾更新
 	for (PlayerBullet* bullet : playerBullets_) {
 		bullet->Update();
@@ -232,6 +236,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	player_->DrawUI();
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
