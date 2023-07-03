@@ -31,7 +31,7 @@ GameScene::~GameScene() {
 	delete skydomeModel_;
 	delete player_;
 	delete playerModel_;
-	//delete enemy_;
+	// delete enemy_;
 	delete enemyModel_;
 	delete debugCamera_;
 }
@@ -69,7 +69,6 @@ void GameScene::Initialize() {
 	// 天球の初期化
 	skydome_->Initialize(skydomeModel_);
 
-
 	// レティクルのテクスチャ
 	TextureManager::Load("reticle.png");
 
@@ -82,12 +81,12 @@ void GameScene::Initialize() {
 	player_->SetGameScene(this);
 
 	// エネミーの生成
-	//enemy_ = new Enemy();
+	// enemy_ = new Enemy();
 	// エネミーの初期化
-	//enemy_->Initialize(enemyModel_, enemyTextureHandle_);
+	// enemy_->Initialize(enemyModel_, enemyTextureHandle_);
 
-	//enemy_->SetPlayer(player_);
-	//enemy_->SetGameScene(this);
+	// enemy_->SetPlayer(player_);
+	// enemy_->SetGameScene(this);
 	/*Enemy* enemy = new Enemy();
 	enemy->Initialize(enemyModel_, enemyTextureHandle_);
 	enemy->SetPlayer(player_);
@@ -102,11 +101,9 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
 	LoadEnemyPopData();
-
 }
 
 void GameScene::Update() {
-	
 
 	// デスフラグの立った弾を削除
 	playerBullets_.remove_if([](PlayerBullet* bullet) {
@@ -144,7 +141,7 @@ void GameScene::Update() {
 	}
 	ImGui::End();
 	/*if (input_->TriggerKey(DIK_BACKSPACE)) {
-		isDebugCameraActive_ = !isDebugCameraActive_;
+	    isDebugCameraActive_ = !isDebugCameraActive_;
 	}*/
 #endif // _DEBUG
 
@@ -167,7 +164,12 @@ void GameScene::Update() {
 	} else {
 		viewProjection_.UpdateMatrix();
 	}
+
+	ImGui::Begin("system");
+
 	UpdateEnemyPopCommands();
+
+	ImGui::End();
 	// エネミーの更新
 	for (Enemy* enemy : enemyLists_) {
 		enemy->Update();
@@ -237,7 +239,6 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	player_->DrawUI();
-
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -325,10 +326,11 @@ void GameScene::LoadEnemyPopData() {
 
 	// ファイルを閉じる
 	file.close();
-
 }
 
 void GameScene::UpdateEnemyPopCommands() {
+	static Vector3 pos{0, 0, 0};
+	ImGui::Text("pos(%+.2f,%+.2f,%+.2f)", pos.x, pos.y, pos.z);
 	// 待機処理
 	if (isWaitPopEnemy) {
 		waitPopEnemyTimer--;
@@ -343,7 +345,7 @@ void GameScene::UpdateEnemyPopCommands() {
 	std::string line;
 
 	// コマンド実行ループ
-	while (std::getline(enemyPopCommands,line)) {
+	while (std::getline(enemyPopCommands, line)) {
 		// 1 行分の文字列をストリームに変換して解析しやすくする
 		std::istringstream line_stream(line);
 
@@ -362,12 +364,13 @@ void GameScene::UpdateEnemyPopCommands() {
 			float x = (float)std::atoi(word.c_str());
 			// y 座標
 			std::getline(line_stream, word, ',');
-			float y  = (float)std::atoi(word.c_str());
+			float y = (float)std::atoi(word.c_str());
 			// z 座標
 			std::getline(line_stream, word, ',');
 			float z = (float)std::atoi(word.c_str());
 			// 敵を発生させる
 			PopEnemy(Vector3(x, y, z));
+			pos = Vector3(x, y, z);
 		}
 		// WAIT コマンド
 		else if (word.find("WAIT") == 0) {
@@ -381,9 +384,7 @@ void GameScene::UpdateEnemyPopCommands() {
 			// コマンドループを抜ける
 			break;
 		}
-
 	}
-
 }
 
 void GameScene::PopEnemy(const Vector3& position) {

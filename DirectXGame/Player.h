@@ -72,6 +72,21 @@ private: // メンバ関数
 	/// </summary>
 	void Attack();
 
+	/// <summary>
+	/// 実際に撃つ
+	/// </summary>
+	void Shot();
+
+	/// <summary>
+	/// 移動
+	/// </summary>
+	void Move();
+
+	/// <summary>
+	/// レティクルの更新
+	/// </summary>
+	void ReticleUpdate(const ViewProjection& viewProjection);
+
 private: // メンバ変数
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -91,6 +106,4 @@ private: // メンバ変数
 
 	Sprite* sprite2DReticle_ = nullptr;
 
-	// 弾
-	// std::list<PlayerBullet*> bullets_;
 };
