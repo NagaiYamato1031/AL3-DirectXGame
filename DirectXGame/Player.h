@@ -73,6 +73,11 @@ private: // メンバ関数
 	void Attack();
 
 	/// <summary>
+	/// 実際に撃つ
+	/// </summary>
+	void Shot();
+
+	/// <summary>
 	/// 移動
 	/// </summary>
 	void Move();

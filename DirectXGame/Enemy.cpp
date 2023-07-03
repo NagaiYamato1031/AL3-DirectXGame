@@ -58,15 +58,15 @@ void Enemy::Update() {
 	// 移動限界座標
 	const float kMoveLimitX = 50.0f;
 	const float kMoveLimitY = 30.0f;
-	const float kMoveLimitZ = 50.0f;
+	//const float kMoveLimitZ = 50.0f;
 
 	// 範囲を超えない処理
 	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
-	worldTransform_.translation_.z = max(worldTransform_.translation_.z, -kMoveLimitZ);
-	worldTransform_.translation_.z = min(worldTransform_.translation_.z, +kMoveLimitZ);
+	/*worldTransform_.translation_.z = max(worldTransform_.translation_.z, -kMoveLimitZ);
+	worldTransform_.translation_.z = min(worldTransform_.translation_.z, +kMoveLimitZ);*/
 
 	// 行列の更新
 	worldTransform_.UpdateMatrix();
@@ -130,6 +130,7 @@ void Enemy::Leave() {
 	move.z = -0.05f;
 	// 移動
 	worldTransform_.translation_ += move;
+	fireTimer = kFireInterval;
 }
 
 void Enemy::Fire() {
