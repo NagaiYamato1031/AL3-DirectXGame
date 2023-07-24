@@ -9,6 +9,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include <memory>
+
 class Player;
 
 /// <summary>
@@ -56,16 +58,16 @@ private: // メンバ変数
 
 	const float kPlayerRadius = 1.0f;
 
-	// プレイヤーのモデル
-	Model* playerModel_ = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 
+	// プレイヤーのモデル
+	std::unique_ptr<Model> playerModel_;
 	// プレイヤー
-	Player* player_ = nullptr;
+	std::unique_ptr<Player> player_;
 
 
 

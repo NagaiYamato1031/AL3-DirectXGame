@@ -7,13 +7,9 @@
 
 #include "Player.h"
 
-
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {
-	delete player_;
-	delete playerModel_;
-}
+GameScene::~GameScene() {}
 
 void GameScene::Initialize() {
 
@@ -23,23 +19,21 @@ void GameScene::Initialize() {
 
 	// テクスチャを読み込み
 	textureHandle_ = TextureManager::Load("white1x1.png");
-	// プレイヤーのモデル
-	playerModel_ = Model::Create();
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
+	// プレイヤーのモデル
+	playerModel_.reset(Model::Create());
 	// 自キャラの生成
-	player_ = new Player();
+	player_ = std::make_unique<Player>();
 	// 自キャラの初期化
 	Vector3 playerPosition{0.0f, 0.0f, 20.0f};
-	player_->Initialze(playerModel_, textureHandle_, playerPosition);
-
+	player_->Initialze(playerModel_.get(), textureHandle_, playerPosition);
 
 	// 軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
-
 }
 
 void GameScene::Update() {
