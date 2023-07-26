@@ -5,11 +5,14 @@
 
 #include <cassert>
 
+#include "Ground.h"
+#include "Skydome.h"
+
 #include "Player.h"
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() { delete debugCamera_; }
 
 void GameScene::Initialize() {
 
@@ -21,9 +24,25 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("white1x1.png");
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+	viewProjection_.translation_.y = 5;
+
+	debugCamera_ = new DebugCamera(1280, 720);
+	isDebugCameraActive_ = false;
+
+	// 天球のモデル
+	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
+	// 天球の初期化
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Initialize(skydomeModel_.get());
+
+	// 地面のモデル
+	groundModel_.reset(Model::CreateFromOBJ("ground", true));
+	// 地面の初期化
+	ground_ = std::make_unique<Ground>();
+	ground_->Initialize(groundModel_.get());
 
 	// プレイヤーのモデル
-	playerModel_.reset(Model::Create());
+	playerModel_.reset(Model::CreateFromOBJ("player", true));
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
 	// 自キャラの初期化
@@ -38,7 +57,34 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-	viewProjection_.UpdateMatrix();
+#ifdef _DEBUG
+
+	if (input_->TriggerKey(DIK_0)) {
+		isDebugCameraActive_ = !isDebugCameraActive_;
+	}
+	ImGui::Begin("DebugCamera");
+
+	ImGui::Checkbox("Active", &isDebugCameraActive_);
+
+	ImGui::DragFloat3("translate", &viewProjection_.translation_.x, 0.01f);
+	ImGui::DragFloat3("rotate", &viewProjection_.rotation_.x, 0.01f);
+
+	ImGui::End();
+
+#endif // _DEBUG
+
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.UpdateMatrix();
+	}
+
+	AxisIndicator::GetInstance()->Update();
+
+	//viewProjection_.UpdateMatrix();
 	// プレイヤーの更新
 	player_->Update(viewProjection_);
 }
@@ -69,6 +115,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	skydome_->Draw(viewProjection_);
+	ground_->Draw(viewProjection_);
 
 	player_->Draw(viewProjection_);
 

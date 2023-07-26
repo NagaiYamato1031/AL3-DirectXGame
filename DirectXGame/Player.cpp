@@ -30,7 +30,7 @@ void Player::Update(const ViewProjection& viewProjection) { viewProjection; }
 void Player::Draw(const ViewProjection& viewProjection) {
 
 	//   3D モデルを描画
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	model_->Draw(worldTransform_, viewProjection);
 }
 
 Vector3 Player::GetWorldPosition() {
