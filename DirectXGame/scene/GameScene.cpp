@@ -8,11 +8,12 @@
 #include "Ground.h"
 #include "Skydome.h"
 
+#include "FollowCamera.h"
 #include "Player.h"
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { delete debugCamera_; }
+GameScene::~GameScene() {}
 
 void GameScene::Initialize() {
 
@@ -26,8 +27,9 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 	viewProjection_.translation_.y = 5;
 
-	debugCamera_ = new DebugCamera(1280, 720);
-	isDebugCameraActive_ = false;
+	// 追従カメラ
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->Initialize();
 
 	// 天球のモデル
 	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
@@ -49,6 +51,9 @@ void GameScene::Initialize() {
 	Vector3 playerPosition{0.0f, 0.0f, 20.0f};
 	player_->Initialze(playerModel_.get(), textureHandle_, playerPosition);
 
+	player_->SetViewProjection(&followCamera_->GetViewProjection());
+	followCamera_->SetTarget(player_->GetWorldTransform());
+
 	// 軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する
@@ -57,36 +62,17 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-#ifdef _DEBUG
-
-	if (input_->TriggerKey(DIK_0)) {
-		isDebugCameraActive_ = !isDebugCameraActive_;
-	}
-	ImGui::Begin("DebugCamera");
-
-	ImGui::Checkbox("Active", &isDebugCameraActive_);
-
-	ImGui::DragFloat3("translate", &viewProjection_.translation_.x, 0.01f);
-	ImGui::DragFloat3("rotate", &viewProjection_.rotation_.x, 0.01f);
-
-	ImGui::End();
-
-#endif // _DEBUG
-
-	if (isDebugCameraActive_) {
-		debugCamera_->Update();
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		viewProjection_.TransferMatrix();
-	} else {
-		viewProjection_.UpdateMatrix();
-	}
-
 	AxisIndicator::GetInstance()->Update();
 
-	//viewProjection_.UpdateMatrix();
-	// プレイヤーの更新
-	player_->Update(viewProjection_);
+	//  プレイヤーの更新
+	player_->Update();
+	// 追従カメラの更新
+	followCamera_->Update();
+
+	viewProjection_.matView = followCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+
+	viewProjection_.TransferMatrix();
 }
 
 void GameScene::Draw() {

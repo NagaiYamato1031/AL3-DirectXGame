@@ -17,7 +17,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update(const ViewProjection& viewProjectioin);
+	void Update();
 
 	/// <summary>
 	/// 描画
@@ -28,17 +28,19 @@ public:
 	Vector3 GetWorldPosition();
 
 public: // ゲッターセッター
-
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
 	/// </summary>
 	/// <param name="parent">親となるワールドトランスフォーム</param>
-	void SetParent(const WorldTransform* parent) {
-		worldTransform_.parent_ = parent;
+	void SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
+
+	const WorldTransform* GetWorldTransform() { return &worldTransform_; }
+
+	void SetViewProjection(const ViewProjection* viewProjection) {
+		viewProjection_ = viewProjection;
 	}
-
+	
 private: // メンバ関数
-
 private: // メンバ変数
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -50,4 +52,6 @@ private: // メンバ変数
 	// キーボード入力
 	Input* input_ = nullptr;
 
+	// カメラのビュープロジェクション
+	const ViewProjection* viewProjection_ = nullptr;
 };

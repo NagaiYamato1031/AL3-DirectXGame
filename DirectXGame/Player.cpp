@@ -25,7 +25,47 @@ void Player::Initialze(Model* model, uint32_t textureHandle, const Vector3& posi
 	input_ = Input::GetInstance();
 }
 
-void Player::Update(const ViewProjection& viewProjection) { viewProjection; }
+void Player::Update() {
+	XINPUT_STATE joyState;
+
+	// 速さ
+	const float kSpeed = 0.3f;
+	// 移動成分
+	Vector3 move = {0.0f, 0.0f, 0.0f};
+	// ゲームパッドが有効なら
+	if (input_->GetJoystickState(0, joyState)) {
+		// 移動量
+		move.x = static_cast<float>(joyState.Gamepad.sThumbLX);
+		move.z = static_cast<float>(joyState.Gamepad.sThumbLY);
+		// 移動量に速さを反映
+		move = Mymath::Normalize(move) * kSpeed;
+	}
+	if (input_->PushKey(DIK_W)) {
+		move.z = kSpeed;
+	}
+	if (input_->PushKey(DIK_S)) {
+		move.z = -kSpeed;
+	}
+	if (input_->PushKey(DIK_D)) {
+		move.x = kSpeed;
+	}
+	if (input_->PushKey(DIK_A)) {
+		move.x = -kSpeed;
+	}
+	if (move.x != 0.0f || move.y != 0.0f || move.z != 0.0f) {
+		// 回転方向に合わせる
+		Matrix4x4 matRotate = Mymath::MakeRotateYMatrix(viewProjection_->rotation_.y);
+
+		move =
+		    Mymath::TransformNormal(move, matRotate);
+		// 移動
+		worldTransform_.translation_ += move;
+
+		// 進行方向に向けて回転する
+		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+	}
+	worldTransform_.UpdateMatrix();
+}
 
 void Player::Draw(const ViewProjection& viewProjection) {
 

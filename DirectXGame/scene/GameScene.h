@@ -17,6 +17,7 @@ class Skydome;
 class Ground;
 
 class Player;
+class FollowCamera;
 
 /// <summary>
 /// ゲームシーン
@@ -66,11 +67,11 @@ private: // メンバ変数
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 
-	// デバッグカメラ
-	DebugCamera* debugCamera_ = nullptr;
+	// プレイヤー追従カメラ
+	std::unique_ptr<FollowCamera> followCamera_;
 
-	// デバッグカメラのフラグ
-	bool isDebugCameraActive_ = false;
+
+
 
 	// 天球のモデル
 	std::unique_ptr<Model> skydomeModel_;
