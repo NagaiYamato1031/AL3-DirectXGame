@@ -44,12 +44,16 @@ void GameScene::Initialize() {
 	ground_->Initialize(groundModel_.get());
 
 	// プレイヤーのモデル
-	playerModel_.reset(Model::CreateFromOBJ("player", true));
+	modelPlayerBody_.reset(Model::CreateFromOBJ("player_Body", true));
+	modelPlayerHead_.reset(Model::CreateFromOBJ("player_Head", true));
+	modelPlayerL_arm_.reset(Model::CreateFromOBJ("player_L_arm", true));
+	modelPlayerR_arm_.reset(Model::CreateFromOBJ("player_R_arm", true));
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
 	// 自キャラの初期化
-	Vector3 playerPosition{0.0f, 0.0f, 20.0f};
-	player_->Initialze(playerModel_.get(), textureHandle_, playerPosition);
+	player_->Initialze(
+	    modelPlayerBody_.get(), modelPlayerHead_.get(), modelPlayerL_arm_.get(),
+	    modelPlayerR_arm_.get());
 
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 	followCamera_->SetTarget(player_->GetWorldTransform());

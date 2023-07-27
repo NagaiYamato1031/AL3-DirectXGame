@@ -84,7 +84,10 @@ private: // メンバ変数
 	std::unique_ptr<Ground> ground_;
 
 	// プレイヤーのモデル
-	std::unique_ptr<Model> playerModel_;
+	std::unique_ptr<Model> modelPlayerBody_;
+	std::unique_ptr<Model> modelPlayerHead_;
+	std::unique_ptr<Model> modelPlayerL_arm_;
+	std::unique_ptr<Model> modelPlayerR_arm_;
 	// プレイヤー
 	std::unique_ptr<Player> player_;
 };

@@ -10,16 +10,41 @@
 #include "Vector4.h"
 
 #include "GameScene.h"
+#include <numbers>
 
-void Player::Initialze(Model* model, uint32_t textureHandle, const Vector3& position) {
+void Player::Initialze(Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm) {
 	// NULL ポインタチェック
-	assert(model);
+	assert(modelBody);
+	assert(modelHead);
+	assert(modelL_arm);
+	assert(modelR_arm);
 
-	model_ = model;
-	textureHandle_ = textureHandle;
+	modelBody_ = modelBody;
+	modelHead_ = modelHead;
+	modelL_arm_ = modelL_arm;
+	modelR_arm_ = modelR_arm;
+	// プレイヤー自身のワールド変換データ
+	worldTransformBase_.Initialize();
+	worldTransformBase_.translation_ = {0.0f, 0.0f, 20.0f};
+	// Body のワールド変換データ
+	worldTransformBody_.Initialize();
+	worldTransformBody_.parent_ = &worldTransformBase_;
+	// Head のワールド変換データ
+	worldTransformHead_.Initialize();
+	worldTransformHead_.parent_ = &worldTransformBody_;
+	worldTransformHead_.translation_.y = 3.0f;
+	// L arm のワールド変換データ
+	worldTransformL_arm_.Initialize();
+	worldTransformL_arm_.parent_ = &worldTransformBody_;
+	worldTransformL_arm_.translation_.x = -1.0f;
+	worldTransformL_arm_.translation_.y = 2.7f;
+	// R arm のワールド変換データ
+	worldTransformR_arm_.Initialize();
+	worldTransformR_arm_.parent_ = &worldTransformBody_;
+	worldTransformR_arm_.translation_.x = 1.0f;
+	worldTransformR_arm_.translation_.y = 2.7f;
 
-	worldTransform_.Initialize();
-	worldTransform_.translation_ = position;
+	InitializeFloatingGimmick();
 
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
@@ -56,21 +81,29 @@ void Player::Update() {
 		// 回転方向に合わせる
 		Matrix4x4 matRotate = Mymath::MakeRotateYMatrix(viewProjection_->rotation_.y);
 
-		move =
-		    Mymath::TransformNormal(move, matRotate);
+		move = Mymath::TransformNormal(move, matRotate);
 		// 移動
-		worldTransform_.translation_ += move;
+		worldTransformBase_.translation_ += move;
 
 		// 進行方向に向けて回転する
-		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+		worldTransformBase_.rotation_.y = std::atan2(move.x, move.z);
 	}
-	worldTransform_.UpdateMatrix();
+	UpdateFloatingGimmick();
+
+	worldTransformBase_.UpdateMatrix();
+	worldTransformBody_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm_.UpdateMatrix();
+	worldTransformR_arm_.UpdateMatrix();
 }
 
 void Player::Draw(const ViewProjection& viewProjection) {
 
 	//   3D モデルを描画
-	model_->Draw(worldTransform_, viewProjection);
+	modelBody_->Draw(worldTransformBody_, viewProjection);
+	modelHead_->Draw(worldTransformHead_, viewProjection);
+	modelL_arm_->Draw(worldTransformL_arm_, viewProjection);
+	modelR_arm_->Draw(worldTransformR_arm_, viewProjection);
 }
 
 Vector3 Player::GetWorldPosition() {
@@ -79,8 +112,41 @@ Vector3 Player::GetWorldPosition() {
 	// worldPos = Mymath::TransformNormal(worldTransform_.translation_, worldTransform_.matWorld_);
 
 	// ワールド座標の平行移動成分を取得
-	worldPos.x = worldTransform_.matWorld_.m[3][0];
-	worldPos.y = worldTransform_.matWorld_.m[3][1];
-	worldPos.z = worldTransform_.matWorld_.m[3][2];
+	worldPos.x = worldTransformBase_.matWorld_.m[3][0];
+	worldPos.y = worldTransformBase_.matWorld_.m[3][1];
+	worldPos.z = worldTransformBase_.matWorld_.m[3][2];
 	return worldPos;
+}
+
+void Player::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
+
+void Player::UpdateFloatingGimmick() {
+	// 浮遊移動のサイクル<frame>
+	static int cycle = 60;
+	// 1 フレームでのパラメータ加算値
+	float step = 2.0f * static_cast<float>(std::numbers::pi) / cycle;
+
+	// パラメータを 1 ステップ分加算
+	floatingParameter_ += step;
+	// 2 π を超えたら 0 に戻す
+	floatingParameter_ =
+	    std::fmodf(floatingParameter_, 2.0f * static_cast<float>(std::numbers::pi));
+
+	// 浮遊の振幅<m>
+	static float amplitude = 0.5f;
+	// 浮遊を座標に変換
+	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * amplitude;
+	float amplitudeArm = 0.2f;
+	worldTransformL_arm_.rotation_.z = std::sin(floatingParameter_) * amplitudeArm;
+	worldTransformR_arm_.rotation_.z = -std::sin(floatingParameter_) * amplitudeArm;
+
+	ImGui::Begin("Player");
+
+	ImGui::SliderFloat3("Head Translation", &worldTransformHead_.translation_.x, -10.0f, 10.0f);
+	ImGui::SliderFloat3("ArmL Translation", &worldTransformL_arm_.translation_.x, -10.0f, 10.0f);
+	ImGui::SliderFloat3("ArmR Translation", &worldTransformR_arm_.translation_.x, -10.0f, 10.0f);
+	ImGui::SliderInt("cycle", &cycle, 1, 120);
+	ImGui::SliderFloat("amplitude", &amplitude, 0.0f, 5.0f);
+
+	ImGui::End();
 }
