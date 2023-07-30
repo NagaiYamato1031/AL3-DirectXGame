@@ -16,8 +16,9 @@
 class Skydome;
 class Ground;
 
-class Player;
 class FollowCamera;
+class Player;
+class Enemy;
 
 /// <summary>
 /// ゲームシーン
@@ -70,9 +71,6 @@ private: // メンバ変数
 	// プレイヤー追従カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 
-
-
-
 	// 天球のモデル
 	std::unique_ptr<Model> skydomeModel_;
 	// 天球
@@ -88,6 +86,13 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelPlayerHead_;
 	std::unique_ptr<Model> modelPlayerL_arm_;
 	std::unique_ptr<Model> modelPlayerR_arm_;
+	std::unique_ptr<Model> modelPlayerWeapon_;
 	// プレイヤー
 	std::unique_ptr<Player> player_;
+
+	// エネミーのモデル
+	std::unique_ptr<Model> modelEnemyBody_;
+	std::unique_ptr<Model> modelEnemyWeapon_;
+	// エネミー
+	std::unique_ptr<Enemy> enemy_;
 };

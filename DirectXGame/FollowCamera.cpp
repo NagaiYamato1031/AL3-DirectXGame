@@ -15,10 +15,16 @@ void FollowCamera::Update() {
 		viewProjection_.rotation_.x -= static_cast<float>(joyState.Gamepad.sThumbRY) / SHRT_MAX * kRotate;
 	}
 	if (Input::GetInstance()->PushKey(DIK_LEFT)) {
-		viewProjection_.rotation_.y += kRotate;
+		viewProjection_.rotation_.y -= kRotate;
 	}
 	if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
-		viewProjection_.rotation_.y -= kRotate;
+		viewProjection_.rotation_.y += kRotate;
+	}
+	if (Input::GetInstance()->PushKey(DIK_UP)) {
+		viewProjection_.rotation_.x -= kRotate;
+	}
+	if (Input::GetInstance()->PushKey(DIK_DOWN)) {
+		viewProjection_.rotation_.x += kRotate;
 	}
 
 

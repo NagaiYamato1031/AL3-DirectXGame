@@ -11,18 +11,18 @@ public:
 
 	virtual void Update();
 
-	virtual void Draw(const ViewProjection& viewProjection);
+	virtual void Draw();
 
 public: // ゲッターセッター
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
 	/// </summary>
 	/// <param name="parent">親となるワールドトランスフォーム</param>
-	void SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
+	void SetParent(const WorldTransform* parent) { worldTransformBase_.parent_ = parent; }
 
-	const WorldTransform* GetWorldTransform() const { return &worldTransform_; }
+	const WorldTransform& GetWorldTransform() const { return worldTransformBase_; }
 
-	const Vector3& GetWorldPosition() const;
+	Vector3 GetWorldPosition() const;
 
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
@@ -30,8 +30,9 @@ public: // ゲッターセッター
 
 protected:
 	std::vector<Model*> models_;
+	std::vector<WorldTransform> worldTransforms_;
 
-	WorldTransform worldTransform_;
+	WorldTransform worldTransformBase_;
 
 	const ViewProjection* viewProjection_;
 };

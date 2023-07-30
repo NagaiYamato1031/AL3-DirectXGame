@@ -8,6 +8,7 @@
 #include "Ground.h"
 #include "Skydome.h"
 
+#include "Enemy.h"
 #include "FollowCamera.h"
 #include "Player.h"
 
@@ -35,6 +36,7 @@ void GameScene::Initialize() {
 	skydomeModel_.reset(Model::CreateFromOBJ("skydome", true));
 	// 天球の初期化
 	skydome_ = std::make_unique<Skydome>();
+
 	skydome_->Initialize(skydomeModel_.get());
 
 	// 地面のモデル
@@ -48,15 +50,31 @@ void GameScene::Initialize() {
 	modelPlayerHead_.reset(Model::CreateFromOBJ("player_Head", true));
 	modelPlayerL_arm_.reset(Model::CreateFromOBJ("player_L_arm", true));
 	modelPlayerR_arm_.reset(Model::CreateFromOBJ("player_R_arm", true));
+	modelPlayerWeapon_.reset(Model::CreateFromOBJ("player_Weapon", true));
+
+	std::vector<Model*> playerModels = {
+	    modelPlayerBody_.get(), modelPlayerHead_.get(), modelPlayerL_arm_.get(),
+	    modelPlayerR_arm_.get(), modelPlayerWeapon_.get()};
+
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
 	// 自キャラの初期化
-	player_->Initialze(
-	    modelPlayerBody_.get(), modelPlayerHead_.get(), modelPlayerL_arm_.get(),
-	    modelPlayerR_arm_.get());
+	player_->Initialize(playerModels);
 
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
-	followCamera_->SetTarget(player_->GetWorldTransform());
+	followCamera_->SetTarget(&player_->GetWorldTransform());
+
+	// エネミー
+	modelEnemyBody_.reset(Model::CreateFromOBJ("enemy", true));
+	modelEnemyWeapon_.reset(Model::CreateFromOBJ("enemyWeapon", true));
+
+	std::vector<Model*> enemyModels = {modelEnemyBody_.get(), modelEnemyWeapon_.get()};
+
+	// エネミーの生成
+	enemy_ = std::make_unique<Enemy>();
+	// エネミーの初期化
+	enemy_->Initialize(enemyModels);
+	enemy_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	// 軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
@@ -67,7 +85,8 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 
 	AxisIndicator::GetInstance()->Update();
-
+	// エネミーの更新
+	enemy_->Update();
 	//  プレイヤーの更新
 	player_->Update();
 	// 追従カメラの更新
@@ -108,7 +127,8 @@ void GameScene::Draw() {
 	skydome_->Draw(viewProjection_);
 	ground_->Draw(viewProjection_);
 
-	player_->Draw(viewProjection_);
+	enemy_->Draw();
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
