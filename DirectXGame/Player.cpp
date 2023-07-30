@@ -9,6 +9,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
+#include "GlobalConfigs.h"
 #include <numbers>
 
 void Player::Initialize(const std::vector<Model*>& models) {
@@ -67,6 +68,14 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
+
+	GlobalConfigs* globalConfigs = GlobalConfigs::GetInstance();
+	const char* groupName = "Player";
+	globalConfigs->CreateGroup(groupName);
+
+	globalConfigs->SetValue(groupName, "TestInt", 90);
+	globalConfigs->SetValue(groupName, "TestFloat", 90.0f);
+	globalConfigs->SetValue(groupName, "TestVector3", Vector3(0, 0, 0));
 }
 
 void Player::Update() {
