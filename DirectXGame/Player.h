@@ -3,6 +3,7 @@
 #include "Input.h"
 #include <optional>
 
+
 class Player : public BaseCharacter {
 public:
 	/// <summary>
@@ -20,6 +21,11 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// 調整項目の適用
+	/// </summary>
+	void AddlyGlobalConfigs();
 
 private: // メンバ関数
 	// 通常行動初期化
@@ -77,6 +83,12 @@ private:
 
 	// 浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;
+
+	// 浮遊時のサイクルフレーム
+	int floatingCycle_ = 60;
+
+	// 浮遊時の振幅
+	float floatingAmplitude_ = 0.5f;
 
 	// 振る舞い
 	Behavior behavior_ = Behavior::kRoot;

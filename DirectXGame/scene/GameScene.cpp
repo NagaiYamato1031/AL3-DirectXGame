@@ -12,6 +12,8 @@
 #include "FollowCamera.h"
 #include "Player.h"
 
+#include "GlobalConfigs.h"
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {}

@@ -60,12 +60,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	primitiveDrawer = PrimitiveDrawer::GetInstance();
 	primitiveDrawer->Initialize();
 #pragma endregion
+	// グローバル変数のインスタンスの取得
+	globalConfigs = GlobalConfigs::GetInstance();
+	globalConfigs->LoadFiles();
 
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
-	globalConfigs = GlobalConfigs::GetInstance();
 
 	// メインループ
 	while (true) {

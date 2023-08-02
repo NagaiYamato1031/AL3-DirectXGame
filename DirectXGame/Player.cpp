@@ -73,12 +73,34 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	const char* groupName = "Player";
 	globalConfigs->CreateGroup(groupName);
 
-	globalConfigs->SetValue(groupName, "TestInt", 90);
-	globalConfigs->SetValue(groupName, "TestFloat", 90.0f);
-	globalConfigs->SetValue(groupName, "TestVector3", Vector3(0, 0, 0));
+	// globalConfigs->AddItem(groupName, "TestInt", 90);
+
+	globalConfigs->AddItem(
+	    groupName, "Head Translation", worldTransforms_[kPlayerHead].translation_);
+	globalConfigs->AddItem(
+	    groupName, "ArmL Translation", worldTransforms_[kPlayerL_arm].translation_);
+	globalConfigs->AddItem(
+	    groupName, "ArmR Translation", worldTransforms_[kPlayerR_arm].translation_);
+	globalConfigs->AddItem(groupName, "floatingCycle", floatingCycle_);
+	globalConfigs->AddItem(groupName, "floatingAmplitude", floatingAmplitude_);
 }
 
 void Player::Update() {
+
+#ifdef _DEBUG
+
+	ImGui::Begin("Player");
+
+	if (ImGui::Button("LoadConfig")) {
+		AddlyGlobalConfigs();
+	}
+
+	ImGui::End();
+
+#endif // _DEBUG
+
+
+
 	if (behaviorRequest_) {
 		// 振る舞いを変更する
 		behavior_ = behaviorRequest_.value();
@@ -126,6 +148,16 @@ void Player::Draw() {
 	// modelHead_->Draw(worldTransformHead_, viewProjection);
 	// modelL_arm_->Draw(worldTransformL_arm_, viewProjection);
 	// modelR_arm_->Draw(worldTransformR_arm_, viewProjection);
+}
+
+void Player::AddlyGlobalConfigs() {
+	GlobalConfigs* globalConfigs = GlobalConfigs::GetInstance();
+	const char* groupName = "Player";
+	worldTransforms_[kPlayerHead].translation_ = globalConfigs->GetVector3Value(groupName, "Head Translation");
+	worldTransforms_[kPlayerL_arm].translation_ = globalConfigs->GetVector3Value(groupName, "ArmL Translation");
+	worldTransforms_[kPlayerR_arm].translation_ = globalConfigs->GetVector3Value(groupName, "ArmR Translation");
+	floatingCycle_ = globalConfigs->GetIntValue(groupName, "floatingCycle");
+	floatingAmplitude_ = globalConfigs->GetFloatValue(groupName, "floatingAmplitude");
 }
 
 void Player::BehaviorRootInitialize() {
@@ -292,9 +324,9 @@ void Player::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
 
 void Player::UpdateFloatingGimmick() {
 	// 浮遊移動のサイクル<frame>
-	static int cycle = 60;
+	// static int floatingCycle = 60;
 	// 1 フレームでのパラメータ加算値
-	float step = 2.0f * static_cast<float>(std::numbers::pi) / cycle;
+	float step = 2.0f * static_cast<float>(std::numbers::pi) / floatingCycle_;
 
 	// パラメータを 1 ステップ分加算
 	floatingParameter_ += step;
@@ -303,9 +335,10 @@ void Player::UpdateFloatingGimmick() {
 	    std::fmodf(floatingParameter_, 2.0f * static_cast<float>(std::numbers::pi));
 
 	// 浮遊の振幅<m>
-	static float amplitude = 0.5f;
+	// static float floatingAmplitude_ = 0.5f;
 	// 浮遊を座標に変換
-	worldTransforms_[kPlayerBody].translation_.y = std::sin(floatingParameter_) * amplitude;
+	worldTransforms_[kPlayerBody].translation_.y =
+	    std::sin(floatingParameter_) * floatingAmplitude_;
 	// worldTransformBody_.translation_.y = std::sin(floatingParameter_) * amplitude;
 	float amplitudeArm = 0.2f;
 	worldTransforms_[kPlayerL_arm].rotation_.z = std::sin(floatingParameter_) * amplitudeArm;
