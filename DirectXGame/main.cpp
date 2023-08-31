@@ -19,12 +19,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
-	
+
 	GlobalConfigs* globalConfigs = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"LE2A_12_ナガイ_ヤマト_AL3");
+	win->CreateGameWindow(L"LE2A_12_ナガイ_ヤマト_Engeki");
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();
@@ -68,7 +68,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
-
 	// メインループ
 	while (true) {
 		// メッセージ処理
@@ -76,30 +75,46 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
+#ifdef _DEBUG
+
 		// ImGui受付開始
 		imguiManager->Begin();
+
+#endif // _DEBUG
+
 		// 入力関連の毎フレーム処理
 		input->Update();
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
 		// 軸表示の更新
 		axisIndicator->Update();
-		
+
+#ifdef _DEBUG
+
 		// 調整変更の更新
 		globalConfigs->Update();
 
 		// ImGui受付終了
 		imguiManager->End();
+
+#endif // _DEBUG
+
 		// 描画開始
 		dxCommon->PreDraw();
 		// ゲームシーンの描画
 		gameScene->Draw();
+
+#ifdef _DEBUG
+
 		// 軸表示の描画
 		axisIndicator->Draw();
-		// プリミティブ描画のリセット
-		primitiveDrawer->Reset();
 		// ImGui描画
 		imguiManager->Draw();
+
+#endif // _DEBUG
+
+		// プリミティブ描画のリセット
+		primitiveDrawer->Reset();
 		// 描画終了
 		dxCommon->PostDraw();
 	}

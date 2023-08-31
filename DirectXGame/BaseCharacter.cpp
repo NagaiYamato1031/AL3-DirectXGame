@@ -1,9 +1,27 @@
 #include "BaseCharacter.h"
 
+#include "MyConst.h"
+#include "GameScene.h"
+
+#include "GlobalConfigs.h"
+
 void BaseCharacter::Initialize(const std::vector<Model*>& models) {
 	models_ = models;
 	worldTransformBase_.Initialize();
 	worldTransforms_.clear();
+
+	GlobalConfigs* configs = GlobalConfigs::GetInstance();
+	const char* groupName = "Base";
+	configs->CreateGroup(groupName);
+
+	configs->AddItem(groupName, "sphereSize", kSphereSize);
+
+	
+	worldTransformBase_.UpdateMatrix();
+
+	for (WorldTransform& wt : worldTransforms_) {
+		wt.UpdateMatrix();
+	}
 }
 
 void BaseCharacter::Update() {
@@ -19,6 +37,28 @@ void BaseCharacter::Draw() {
 	}
 }
 
+void BaseCharacter::OnCollision() {
+
+}
+
+void BaseCharacter::AddlyAllGlobalConfigs() {
+	GlobalConfigs* configs = GlobalConfigs::GetInstance();
+	const char* groupName = "Base";
+
+	kSphereSize = configs->GetFloatValue(groupName, "sphereSize");
+	AddlyGlobalConfigs();
+}
+
+
+
+Sphere BaseCharacter::GetSphere() const {
+	Sphere sphere;
+	sphere.center = worldTransformBase_.translation_;
+	sphere.radius = kSphereSize * worldTransformBase_.scale_.x;
+	return sphere;
+}
+
+
 Vector3 BaseCharacter::GetWorldPosition() const {
 	Vector3 worldPos;
 
@@ -30,3 +70,5 @@ Vector3 BaseCharacter::GetWorldPosition() const {
 	worldPos.z = worldTransformBase_.matWorld_.m[3][2];
 	return worldPos;
 }
+
+void BaseCharacter::SetGameScene(GameScene* scene) { gameScene_ = scene; }

@@ -5,6 +5,7 @@
 void FollowCamera::Initialize() { viewProjection_.Initialize(); }
 
 void FollowCamera::Update() {
+
 	XINPUT_STATE joyState;
 
 	// 回転速度
@@ -27,11 +28,22 @@ void FollowCamera::Update() {
 		viewProjection_.rotation_.x += kRotate;
 	}
 
+	if (Input::GetInstance()->PushKey(DIK_SPACE)) {
+		viewProjection_.rotation_.x = 0;
+		viewProjection_.rotation_.y = 0;
+	}
+
 
 	if (target_) {
 		// 追従対象からカメラまでのオフセット
-		Vector3 offset{0.0f, 4.0f, -20.0f};
+		Vector3 offset{0.0f, 6.0f, -30.0f};
 
+		viewProjection_.rotation_ = target_->rotation_;
+		viewProjection_.rotation_.y += 3.14f;
+		viewProjection_.rotation_.x *= -1;
+		viewProjection_.rotation_.x += 0.01f;
+
+		//Matrix4x4 matRotate = Mymath::MakeRotateXYZMatrix(viewProjection_.rotation_);
 		Matrix4x4 matRotate = Mymath::MakeRotateXYZMatrix(viewProjection_.rotation_);
 
 		offset = Mymath::TransformNormal(offset, matRotate);

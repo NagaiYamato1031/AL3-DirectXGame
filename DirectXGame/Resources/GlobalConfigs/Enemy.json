@@ -1,0 +1,6 @@
+{
+    "Enemy": {
+        "coolTime": 60,
+        "health": 100
+    }
+}
